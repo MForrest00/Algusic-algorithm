@@ -1,7 +1,7 @@
 from random import choices, gauss, randint
 from string import ascii_uppercase
 from algorithm.general_tools.frequency_ranges import NORMAL_MUSIC_RANGE
-from algorithm.general_tools.option_probabilities import NOTE_COUNTS, OCTAVE_RANGES
+from algorithm.general_tools.option_probabilities import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class ChromaticContext:
@@ -12,9 +12,9 @@ class ChromaticContext:
         self.maximum_hz = maximum_hz
         self.anchor_hz = anchor_hz or randint(self.minimum_hz, self.maximum_hz)
         self.chromatic_scale = [[]]
+        self.named_chromatic_scale = [[]]
 
-    @property
-    def named_chromatic_scale(self):
+    def generate_named_chromatic_scale(self):
         octaves = []
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
             scale = []
@@ -44,9 +44,10 @@ class ChromaticContext:
 
 class TrueOctavedChromaticContext(ChromaticContext):
 
-    def __init__(self, note_count=None, octave_range=None, **kwargs):
+    def __init__(self, single_octave_note_count=None, octave_range=None, **kwargs):
         super().__init__(**kwargs)
-        self.note_count = note_count or choices(NOTE_COUNTS.options, weights=NOTE_COUNTS.probabilities)
+        self.single_octave_note_count = single_octave_note_count or \
+            choices(SINGLE_OCTAVE_NOTE_COUNTS.options, weights=SINGLE_OCTAVE_NOTE_COUNTS.probabilities)
         self.octave_range = octave_range or choices(OCTAVE_RANGES.options, weights=OCTAVE_RANGES.probabilities)
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note): return []
@@ -61,7 +62,7 @@ class TrueOctavedChromaticContext(ChromaticContext):
         while True:
             current_note /= (2 * self.octave_range)
             scale = self.generate_single_octave_chromatic_scale_from_anchor_note(current_note)
-            if scale.count(None) == self.note_count:
+            if scale.count(None) == self.single_octave_note_count:
                 break
             octaves.insert(0, scale)
         return octaves
@@ -72,17 +73,18 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.chromatic_scale = self.generate_chromatic_scale()
+        self.named_chromatic_scale = self.generate_named_chromatic_scale()
 
     def generate_next_note(self, note):
-        return note * pow(pow(2, self.octave_range), 1 / self.note_count)
+        return note * pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
     def generate_previous_note(self, note):
-        return note / pow(pow(2, self.octave_range), 1 / self.note_count)
+        return note / pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note):
         scale = []
         current_note = anchor_note
-        for _ in range(self.note_count):
+        for _ in range(self.single_octave_note_count):
             if self.minimum_hz <= current_note <= self.maximum_hz:
                 scale.append(current_note)
             else:
@@ -97,7 +99,8 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     def __init__(self, note_ratios=None, **kwargs):
         super().__init__(**kwargs)
         self.note_ratios = note_ratios or self.generate_note_ratios()
-        self.chromatic_scale = self.generate_chromatic_scale() 
+        self.chromatic_scale = self.generate_chromatic_scale()
+        self.named_chromatic_scale = self.generate_named_chromatic_scale()
 
     @property
     def note_ratios(self):
@@ -105,13 +108,13 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
 
     @note_ratios.setter
     def note_ratios(self, note_ratios):
-        if len(note_ratios) != self.note_count - 1:
+        if len(note_ratios) != self.single_octave_note_count - 1:
             raise Exception('Number of elements in note ratios must be one less than the note count')
         self._note_ratios = note_ratios
 
     @property
     def standard_note_ratio(self):
-        return pow(pow(2, self.octave_range), 1 / self.note_count)
+        return pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
     def generate_next_ratio(self, current_ratio):
         iterations = 0
@@ -132,7 +135,7 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     def generate_note_ratios(self):
         note_ratios = [1.0]
         current_ratio = 1.0
-        for _ in range(self.note_count - 1):
+        for _ in range(self.single_octave_note_count - 1):
             possible_ratio = self.generate_next_ratio(current_ratio)
             current_ratio *= possible_ratio
             note_ratios.append(current_ratio)
