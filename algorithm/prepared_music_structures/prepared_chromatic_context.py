@@ -7,7 +7,7 @@ class WesternChromaticContext(ChromaticContext):
                             ('E', 0), ('F', 0), ('F♯/G♭', 0), ('G', 0), ('G♯/A♭', 0)]
     
     def __init__(self, **kwargs):
-        super().__init__(note_count=12, octave_range=1, **kwargs)
+        super().__init__(octave_range=1, **kwargs)
     
     @property
     def named_chromatic_scale(self):
@@ -28,15 +28,23 @@ class WesternChromaticContext(ChromaticContext):
 class WesternEqualTemperedChromaticContext(EqualTemperedTrueOctavedChromaticContext, WesternChromaticContext):
 
     def __init__(self, minimum_hz=16.3515, maximum_hz=7902.1329, anchor_hz=440.0):
-        super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz)
+        super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz,
+                         single_octave_note_count=12)
+    
+    def __str__(self):
+        return f'Classic western equal tempered chromatic context, with A4 on {self.anchor_hz} hz'
 
 
 class WesternJustTemperedChromaticContext(UnequalTemperedTrueOctavedChromaticContext, WesternChromaticContext):
     NOTE_RATIOS = [25/24, 9/8, 6/5, 5/4, 4/3, 45/32, 3/2, 8/5, 5/3, 9/5, 15/8]
 
-    def __init__(self, minimum_hz=16.4999, maximum_hz=7920.0001, anchor_hz=440.0):
+    def __init__(self, minimum_hz=16.4999, maximum_hz=7920.0001, anchor_hz=440.0, anchor_note_name='A'):
         super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz,
                          note_ratios=WesternJustTemperedChromaticContext.NOTE_RATIOS)
+        self.anchor_note_name = anchor_note_name
+    
+    def __str__(self):
+        return f'Classic western just tempered chromatic context, with {self.anchor_note_name}4 on {self.anchor_hz} hz'
 
 
 WesternEqualTempered432ChromaticContext = \
@@ -54,3 +62,6 @@ WesternEqualTempered444ChromaticContext = \
     WesternEqualTemperedChromaticContext(minimum_hz=16.5002, maximum_hz=7973.9704, anchor_hz=444.0)
 WesternEqualTempered446ChromaticContext = \
     WesternEqualTemperedChromaticContext(minimum_hz=16.5745, maximum_hz=8009.8892, anchor_hz=446.0)
+
+
+WesternJustTemperedA440ChromaticContext = WesternJustTemperedChromaticContext()

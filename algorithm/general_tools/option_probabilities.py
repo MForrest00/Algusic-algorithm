@@ -45,3 +45,9 @@ OCTAVE_RANGES = OptionProbabilityContainer(OptionProbability(option=1, probabili
                                            OptionProbability(option=6, probability=0.5),
                                            OptionProbability(option=7, probability=0.25),
                                            OptionProbability(option=8, probability=0.25))
+SCALE_DEGREES_INCREMENT = OptionProbabilityContainer(OptionProbability(option=1, probability=25),
+                                                     OptionProbability(option=2, probability=60),
+                                                     OptionProbability(option=3, probability=10),
+                                                     OptionProbability(option=4, probability=2.5),
+                                                     OptionProbability(option=5, probability=1.25),
+                                                     OptionProbability(option=6, probability=1.25))

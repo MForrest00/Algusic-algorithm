@@ -8,7 +8,11 @@ class VassilakisSRAModel:
     def __init__(self, sinusoids):
         self.sinusoids = sinusoids
         self.calculated_roughness = self.generate_roughness_value()
-    
+
+    @property
+    def dissonance(self):
+        return self.calculated_roughness
+
     def generate_roughness_value_from_pair(self, sinusoid_1, sinusoid_2):
         sinusoid_1_frequency, sinusoid_1_amplitude = sinusoid_1
         sinusoid_2_frequency, sinusoid_2_amplitude = sinusoid_2
@@ -34,3 +38,20 @@ class VassilakisSRAModel:
             sinusoid_1, sinusoid_2 = pair
             roughness += self.generate_roughness_value_from_pair(sinusoid_1, sinusoid_2)
         return roughness
+
+    def add_sinusoid(self, sinusoid):
+        roughness = self.calculated_roughness
+        for stored_sinusoid in self.sinusoids:
+            roughness += self.generate_roughness_value_from_pair(sinusoid, stored_sinusoid)
+        self.calculated_roughness = roughness
+        self.sinusoids.append(sinusoid)
+
+    def remove_sinusoid_by_index(self, index):
+        sinusoid = self.sinusoids[index]
+        roughness = self.calculated_roughness
+        for i, stored_sinusoid in self.sinusoids:
+            if i == index:
+                continue
+            roughness -= self.generate_roughness_value_from_pair(sinusoid, stored_sinusoid)
+        self.calculated_roughness = roughness
+        del self.sinusoids[index]
