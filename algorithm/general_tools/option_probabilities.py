@@ -9,7 +9,7 @@ class OptionProbabilityContainer:
     @property
     def options(self):
         return [option_probability.option for option_probability in self.option_probabilities]
-    
+
     @property
     def probabilities(self):
         return [option_probability.probability for option_probability in self.option_probabilities]

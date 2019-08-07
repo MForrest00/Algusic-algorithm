@@ -1,14 +1,14 @@
-from algorithm.music_structures.chromatic_context import ChromaticContext, EqualTemperedTrueOctavedChromaticContext, \
-    UnequalTemperedTrueOctavedChromaticContext
+from algorithm.music_structures.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
+    TrueOctavedChromaticContext, UnequalTemperedTrueOctavedChromaticContext
 
 
-class WesternChromaticContext(ChromaticContext):
+class WesternChromaticContext(TrueOctavedChromaticContext):
     NOTE_NAME_COMPONENTS = [('A', -1), ('A♯/B♭', -1), ('B', -1), ('C', 0), ('C♯/D♭', 0), ('D', 0), ('D♯/E♭', 0),
                             ('E', 0), ('F', 0), ('F♯/G♭', 0), ('G', 0), ('G♯/A♭', 0)]
-    
+
     def __init__(self, **kwargs):
         super().__init__(octave_range=1, **kwargs)
-    
+
     @property
     def named_chromatic_scale(self):
         octaves = []
@@ -24,13 +24,17 @@ class WesternChromaticContext(ChromaticContext):
             octaves.append(scale)
         return octaves
 
+    @named_chromatic_scale.setter
+    def named_chromatic_scale(self, named_chromatic_scale):
+        pass
+
 
 class WesternEqualTemperedChromaticContext(EqualTemperedTrueOctavedChromaticContext, WesternChromaticContext):
 
     def __init__(self, minimum_hz=16.3515, maximum_hz=7902.1329, anchor_hz=440.0):
         super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz,
                          single_octave_note_count=12)
-    
+
     def __str__(self):
         return f'Classic western equal tempered chromatic context, with A4 on {self.anchor_hz} hz'
 
@@ -40,9 +44,10 @@ class WesternJustTemperedChromaticContext(UnequalTemperedTrueOctavedChromaticCon
 
     def __init__(self, minimum_hz=16.4999, maximum_hz=7920.0001, anchor_hz=440.0, anchor_note_name='A'):
         super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz,
+                         single_octave_note_count=len(WesternJustTemperedChromaticContext.NOTE_RATIOS) + 1,
                          note_ratios=WesternJustTemperedChromaticContext.NOTE_RATIOS)
         self.anchor_note_name = anchor_note_name
-    
+
     def __str__(self):
         return f'Classic western just tempered chromatic context, with {self.anchor_note_name}4 on {self.anchor_hz} hz'
 

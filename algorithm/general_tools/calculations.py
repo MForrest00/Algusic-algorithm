@@ -27,7 +27,8 @@ class VassilakisSRAModel:
         s = 0.24 / ((s1 * frequency_min) + s2)
         X = amplitude_min * amplitude_max
         Y = (2 * amplitude_min) / (amplitude_min + amplitude_max)
-        Z = pow(e, -1 * b1 * s * (frequency_max - frequency_min)) - pow(e, -1 * b2 * s * (frequency_max - frequency_min))
+        Z = pow(e, -1 * b1 * s * (frequency_max - frequency_min)) - \
+            pow(e, -1 * b2 * s * (frequency_max - frequency_min))
         return pow(X, 0.1) * 0.5 * pow(Y, 3.11) * Z
 
     def generate_roughness_value(self):
@@ -45,6 +46,17 @@ class VassilakisSRAModel:
             roughness += self.generate_roughness_value_from_pair(sinusoid, stored_sinusoid)
         self.calculated_roughness = roughness
         self.sinusoids.append(sinusoid)
+
+    def add_sinusoids(self, sinusoids, sinusoids_precalculated_roughness=None):
+        if not sinusoids_precalculated_roughness:
+            sinusoids_precalculated_roughness = self.generate_roughness_value(sinusoids)
+        roughness = self.calculated_roughness
+        roughness += sinusoids_precalculated_roughness
+        for sinusoid in sinusoids:
+            for stored_sinusoid in self.sinusoids:
+                roughness += self.generate_roughness_value_from_pair(sinusoid, stored_sinusoid)
+        self.calculated_roughness = roughness
+        self.sinusoids.extend(sinusoids)
 
     def remove_sinusoid_by_index(self, index):
         sinusoid = self.sinusoids[index]

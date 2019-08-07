@@ -17,7 +17,7 @@ class TrueOctavedScaleContext(ScaleContext):
     @property
     def scale_degrees(self):
         return self._scale_degrees
-    
+
     @scale_degrees.setter
     def scale_degrees(self, scale_degrees):
         if max(scale_degrees) > self.chromatic_context.single_octave_note_count - 1:
@@ -28,7 +28,7 @@ class TrueOctavedScaleContext(ScaleContext):
         scale_degrees = []
         current_degree = 0
         while True:
-            current_degree += choices(SCALE_DEGREES_INCREMENT.options, weights=SCALE_DEGREES_INCREMENT.probabilities)
+            current_degree += choices(SCALE_DEGREES_INCREMENT.options, weights=SCALE_DEGREES_INCREMENT.probabilities)[0]
             if current_degree > self.chromatic_context.single_octave_note_count - 1:
                 break
             scale_degrees.append(current_degree)
@@ -48,7 +48,7 @@ class UnequalTemperedTrueOctavedScaleContext(TrueOctavedScaleContext):
 
     def __init__(self, chromatic_context, **kwargs):
         super().__init__(chromatic_context, **kwargs)
-    
+
     @property
     def tonic_index(self):
         return self.chromatic_context.flat_chromatic_scale.index(self.chromatic_context.anchor_hz)
