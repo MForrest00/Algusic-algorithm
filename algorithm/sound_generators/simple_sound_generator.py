@@ -16,18 +16,26 @@ class SimpleSoundGenerator:
             scale = chromatic_context.chromatic_scale[scales_range // 2]
             if scales_range > 1:
                 scale += chromatic_context.chromatic_scale[scales_range // 2 + 1][:1]
+        print('{} note scale:'.format(len(scale)), scale)
         scale = deque(reversed(scale))
-        print(len(scale), scale)
+        reverse_scale = deque()
         self.server.boot()
         amp = Fader(fadein=0.005, fadeout=0.05, mul=.15)
         osc = RCOsc(freq=100, mul=amp).out()
 
         def get_next_note():
+            nonlocal scale
+            nonlocal reverse_scale
             play_length = 0.5
             amp.dur = play_length
             pat.time = play_length
-            next_freq = scale.pop()
-            scale.appendleft(next_freq)
+            try:
+                next_freq = scale.pop()
+            except IndexError:
+                scale = reverse_scale.copy()
+                reverse_scale.clear()
+                next_freq = scale.pop()
+            reverse_scale.append(next_freq)
             osc.freq = next_freq
             amp.play()
 

@@ -3,8 +3,6 @@ from algorithm.music_structures.chromatic_context import EqualTemperedTrueOctave
 
 
 class WesternChromaticContext(TrueOctavedChromaticContext):
-    NOTE_NAME_COMPONENTS = [('A', -1), ('A♯/B♭', -1), ('B', -1), ('C', 0), ('C♯/D♭', 0), ('D', 0), ('D♯/E♭', 0),
-                            ('E', 0), ('F', 0), ('F♯/G♭', 0), ('G', 0), ('G♯/A♭', 0)]
     NOTE_NAMES = ['A', 'A♯/B♭', 'B', 'C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭']
 
     def __init__(self, **kwargs):
@@ -41,7 +39,7 @@ class WesternChromaticContext(TrueOctavedChromaticContext):
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
             scale = []
             for note, note_name_components in zip(single_octave_chromatic_scale,
-                                                  WesternChromaticContext.NOTE_NAME_COMPONENTS):
+                                                  self.generate_note_name_components()):
                 if note is None:
                     continue
                 letter_component, octave_number_component = note_name_components

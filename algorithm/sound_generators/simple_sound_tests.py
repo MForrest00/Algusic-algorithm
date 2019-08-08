@@ -1,6 +1,6 @@
 from algorithm.music_structures.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
     UnequalTemperedTrueOctavedChromaticContext
-from algorithm.prepared_music_structures.prepared_chromatic_context import WesternEqualTempered440ChromaticContext, \
+from algorithm.prepared_music_structures.western_chromatic_context import WesternEqualTempered440ChromaticContext, \
     WesternJustTemperedA440ChromaticContext
 from algorithm.sound_generators.simple_sound_generator import simple_sound_generator
 
