@@ -5,9 +5,35 @@ from algorithm.music_structures.chromatic_context import EqualTemperedTrueOctave
 class WesternChromaticContext(TrueOctavedChromaticContext):
     NOTE_NAME_COMPONENTS = [('A', -1), ('A♯/B♭', -1), ('B', -1), ('C', 0), ('C♯/D♭', 0), ('D', 0), ('D♯/E♭', 0),
                             ('E', 0), ('F', 0), ('F♯/G♭', 0), ('G', 0), ('G♯/A♭', 0)]
+    NOTE_NAMES = ['A', 'A♯/B♭', 'B', 'C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭']
 
     def __init__(self, **kwargs):
         super().__init__(octave_range=1, **kwargs)
+
+    @property
+    def anchor_note_name(self):
+        if not hasattr(self, '_anchor_note_name'):
+            return 'A'
+        return self._anchor_note_name
+
+    @anchor_note_name.setter
+    def anchor_note_name(self, anchor_note_name):
+        self._anchor_note_name = anchor_note_name
+
+    def generate_note_name_components(self):
+        note_index = WesternChromaticContext.NOTE_NAMES.index(self.anchor_note_name)
+        ordered_note_names = WesternChromaticContext.NOTE_NAMES[note_index:] + \
+            WesternChromaticContext.NOTE_NAMES[:note_index]
+        note_name_components = []
+        c_encountered = False
+        for ordered_note_name in ordered_note_names:
+            if ordered_note_name == 'C':
+                c_encountered = True
+            if not c_encountered:
+                note_name_components.append((ordered_note_name, -1))
+            else:
+                note_name_components.append((ordered_note_name, 0))
+        return note_name_components
 
     @property
     def named_chromatic_scale(self):

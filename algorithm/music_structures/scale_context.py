@@ -4,14 +4,14 @@ from algorithm.general_tools.option_probabilities import SCALE_DEGREES_INCREMENT
 
 class ScaleContext:
 
-    def __init__(self, chromatic_context, fundamental_index=None):
+    def __init__(self, chromatic_context):
         self.chromatic_context = chromatic_context
 
 
 class TrueOctavedScaleContext(ScaleContext):
 
-    def __init__(self, chromatic_context, scale_degrees=None, **kwargs):
-        super().__init__(chromatic_context, **kwargs)
+    def __init__(self, chromatic_context, scale_degrees=None):
+        super().__init__(chromatic_context)
         self.scale_degrees = scale_degrees or self.generate_scale_degrees
 
     @property
@@ -21,7 +21,7 @@ class TrueOctavedScaleContext(ScaleContext):
     @scale_degrees.setter
     def scale_degrees(self, scale_degrees):
         if max(scale_degrees) > self.chromatic_context.single_octave_note_count - 1:
-            raise Exception('Highest scale degree cannot be greater than the highest note in a single octave')
+            raise Exception('Highest scale degree cannot be greater than the number of notes in a single octave')
         self._scale_degrees = scale_degrees
 
     def generate_scale_degrees(self):
