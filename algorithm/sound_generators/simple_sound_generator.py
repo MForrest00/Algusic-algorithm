@@ -9,8 +9,9 @@ class SimpleSoundGenerator:
 
     def play_octaved_chromatic_scale(self, chromatic_context, start_index=None):
         if start_index:
-            end_index = start_index + chromatic_context.single_octave_note_count + 1
-            scale = chromatic_context.flat_chromatic_scale[start_index:min(end_index, len(chromatic_context.flat_chromatic_scale))]
+            target_end_index = start_index + chromatic_context.single_octave_note_count + 1
+            end_index = min(target_end_index, len(chromatic_context.flat_chromatic_scale))
+            scale = chromatic_context.flat_chromatic_scale[start_index:end_index]
         else:
             scales_range = len(chromatic_context.chromatic_scale)
             scale = chromatic_context.chromatic_scale[scales_range // 2]

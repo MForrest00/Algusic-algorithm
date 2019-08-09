@@ -5,8 +5,12 @@ class WesternTrueOctavedScaleContext(TrueOctavedScaleContext):
 
     def __init__(self, scale_degrees=None, primary_name=None, alternative_names=None):
         super().__init__(chromatic_single_octave_note_count=12, scale_degrees=scale_degrees)
-        self.primary_name = primary_name or ''
-        self.alternative_names = alternative_names or []
+        self.interval_short_names = ['m2', 'M2', 'm3', 'M3', 'P4', 'A4/d5', 'P5', 'm6', 'M6', 'm7', 'M7']
+        self.interval_long_names = ['Minor Second', 'Major Second', 'Minor Third', 'Major Third', 'Perfect Fourth',
+                                    'Augmented Fourth/Diminished Fifth', 'Perfect Fifth', 'Minor Sixth', 'Major Sixth',
+                                    'Minor Seventh', 'Major Seventh']
+        self.primary_name = primary_name
+        self.alternative_names = alternative_names
 
 
 MajorScaleContext = \
