@@ -57,10 +57,10 @@ class TrueOctavedChromaticContext(ChromaticContext):
         current_note = self.anchor_hz
         while current_note <= self.maximum_hz:
             octaves.append(self.generate_single_octave_chromatic_scale_from_anchor_note(current_note))
-            current_note *= (2 * self.octave_range)
+            current_note *= pow(2, self.octave_range)
         current_note = self.anchor_hz
         while True:
-            current_note /= (2 * self.octave_range)
+            current_note /= pow(2, self.octave_range)
             scale = self.generate_single_octave_chromatic_scale_from_anchor_note(current_note)
             if scale.count(None) == self.single_octave_note_count:
                 break

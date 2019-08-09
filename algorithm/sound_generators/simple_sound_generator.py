@@ -17,7 +17,7 @@ class SimpleSoundGenerator:
             scale = chromatic_context.chromatic_scale[scales_range // 2]
             if scales_range > 1:
                 scale += chromatic_context.chromatic_scale[scales_range // 2 + 1][:1]
-        print('{} note scale:'.format(len(scale)), scale)
+        print('{} note scale:'.format(chromatic_context.single_octave_note_count), scale)
         scale = deque(reversed(scale))
         reverse_scale = deque()
         self.server.boot()

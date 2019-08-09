@@ -9,6 +9,11 @@ class WesternChordContext(ChordContext):
         self.primary_symbol = primary_symbol
         self.alternative_symbols = alternative_symbols
 
+    def render_symbol(self, note_name, symbol=None):
+        if symbol is None:
+            symbol = self.primary_symbol
+        return symbol.replace('_', note_name)
+
 
 MajorChordContext = \
     WesternChordContext(chord_degrees=[4, 7], name='Major', primary_symbol='_', alternative_names=['_M'])
