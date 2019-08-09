@@ -73,7 +73,8 @@ class WesternJustTemperedChromaticContext(UnequalTemperedTrueOctavedChromaticCon
         self.anchor_note_name = anchor_note_name
 
     def __str__(self):
-        return f'Classic western just tempered chromatic context, with {self.anchor_note_name}4 on {self.anchor_hz} hz'
+        return f'Classic western just tempered chromatic context in {self.anchor_note_name}, with ' + \
+               f'{self.anchor_note_name}4 on {self.anchor_hz} hz'
 
 
 WesternEqualTempered432ChromaticContext = \

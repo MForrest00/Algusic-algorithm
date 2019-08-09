@@ -2,7 +2,7 @@ from random import choices
 from algorithm.general_tools.option_probabilities import SCALE_DEGREES_INCREMENT
 
 
-class TrueOctavedScaleContext:
+class OctavedScaleContext:
 
     def __init__(self, chromatic_single_octave_note_count, scale_degrees=None):
         self.chromatic_single_octave_note_count = chromatic_single_octave_note_count

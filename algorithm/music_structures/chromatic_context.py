@@ -94,7 +94,7 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
 
 
 class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
-    NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE = 0.05
+    NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE = 0.25
 
     def __init__(self, note_ratios=None, **kwargs):
         super().__init__(**kwargs)
@@ -106,30 +106,22 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     def standard_note_ratio(self):
         return pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
-    def generate_next_ratio(self, current_ratio):
-        iterations = 0
-        possible_ratio = current_ratio * \
-            gauss(self.standard_note_ratio, self.standard_note_ratio *
-                  UnequalTemperedTrueOctavedChromaticContext.NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE)
-        while possible_ratio <= current_ratio or \
-                possible_ratio >= (current_ratio * (pow(self.standard_note_ratio, 2))) or \
-                possible_ratio >= pow(2, self.octave_range):
-            if iterations >= 5:
-                break
-            iterations += 1
-            possible_ratio = current_ratio * \
-                gauss(self.standard_note_ratio, self.standard_note_ratio *
+    def generate_next_ratio(self, index):
+        max_iterations = 5
+        following_ratio_diff = pow(self.standard_note_ratio, index + 2) - pow(self.standard_note_ratio, (index + 1))
+        for _ in range(max_iterations):
+            possible_ratio = pow(self.standard_note_ratio, (index + 1)) + \
+                gauss(0, following_ratio_diff *
                       UnequalTemperedTrueOctavedChromaticContext.NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE)
-        return possible_ratio
+            if possible_ratio <= pow(self.standard_note_ratio, index) or \
+                    possible_ratio >= pow(self.standard_note_ratio, index + 2):
+                continue
+            return possible_ratio
+        return pow(self.standard_note_ratio, (index + 1))
 
     def generate_note_ratios(self):
-        note_ratios = []
-        current_ratio = 1.0
-        for _ in range(self.single_octave_note_count - 1):
-            possible_ratio = self.generate_next_ratio(current_ratio)
-            current_ratio = possible_ratio
-            note_ratios.append(current_ratio)
-        return note_ratios
+        note_ratios = [self.generate_next_ratio(i) for i in range(self.single_octave_note_count - 1)]
+        return sorted(note_ratios)
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note):
         if anchor_note >= self.minimum_hz:
