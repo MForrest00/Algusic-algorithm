@@ -14,6 +14,16 @@ class ChromaticContext:
         self.chromatic_scale = []
         self.named_chromatic_scale = []
 
+    @property
+    def anchor_hz(self):
+        return self._anchor_hz
+
+    @anchor_hz.setter
+    def anchor_hz(self, anchor_hz):
+        if not self.minimum_hz <= anchor_hz <= self.maximum_hz:
+            return Exception('Anchor hz must be between minimum hz and maximum hz inclusive')
+        self._anchor_hz = anchor_hz
+
     def generate_named_chromatic_scale(self):
         octaves = []
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
@@ -33,13 +43,17 @@ class ChromaticContext:
 
     @property
     def flat_chromatic_scale(self):
-        return [note for single_octave_scale in self.chromatic_scale
-                for note in single_octave_scale if note is not None]
+        if not hasattr(self, '_flat_chromatic_scale'):
+            self._flat_chromatic_scale = [note for single_octave_scale in self.chromatic_scale
+                                          for note in single_octave_scale if note is not None]
+        return self._flat_chromatic_scale
 
     @property
     def flat_named_chromatic_scale(self):
-        return [note for single_octave_scale in self.named_chromatic_scale
-                for note in single_octave_scale if note is not None]
+        if not hasattr(self, '_flat_named_chromatic_scale'):
+            self._flat_named_chromatic_scale = [note for single_octave_scale in self.named_chromatic_scale
+                                                for note in single_octave_scale if note is not None]
+        return self._flat_named_chromatic_scale
 
 
 class TrueOctavedChromaticContext(ChromaticContext):
@@ -121,7 +135,7 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
 
     def generate_note_ratios(self):
         note_ratios = [self.generate_next_ratio(i) for i in range(self.single_octave_note_count - 1)]
-        return sorted(note_ratios)
+        return note_ratios
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note):
         if anchor_note >= self.minimum_hz:
