@@ -36,13 +36,13 @@ class AppliedOctavedScaleContext:
     @property
     def scale(self):
         if not hasattr(self, '_scale'):
-            self._scale = [[j for j in i.values()] for i in self.named_scale]
+            self._scale = [[k for j in i for k in j.values()] for i in self.named_scale]
         return self._scale
 
     @property
     def altered_scale(self):
         if not hasattr(self, '_altered_scale'):
-            self._altered_scale = [[j for j in i.values()] for i in self.altered_named_scale]
+            self._altered_scale = [[k for j in i for k in j.values()] for i in self.named_altered_scale]
         return self._altered_scale
 
     @property
