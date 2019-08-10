@@ -1,4 +1,4 @@
-from algorithm.music_structures.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
+from algorithm.music_elements.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
     TrueOctavedChromaticContext, UnequalTemperedTrueOctavedChromaticContext
 
 

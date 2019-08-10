@@ -60,5 +60,12 @@ class SimpleSoundGenerator:
                                                            applied_scale.chromatic_context.octave_range), scale)
         self.play_scale(scale)
 
+    def play_applied_octaved_scale_with_chromatic(self, applied_scale):
+        chromatic_scale = self.generate_ranged_scale(applied_scale.chromatic_context.chromatic_scale)
+        scale = self.generate_ranged_scale(applied_scale.scale)
+        print('{} note scale over {} true octaves:'.format(len(applied_scale.scale_context.scale_degrees) + 1,
+                                                           applied_scale.chromatic_context.octave_range), scale)
+        self.play_scale(chromatic_scale + scale)
+
 
 simple_sound_generator = SimpleSoundGenerator()

@@ -6,7 +6,7 @@ class OctavedScaleContext:
 
     def __init__(self, chromatic_single_octave_note_count, scale_degrees=None):
         self.chromatic_single_octave_note_count = chromatic_single_octave_note_count
-        self.scale_degrees = scale_degrees or self.generate_scale_degrees
+        self.scale_degrees = scale_degrees or self.generate_scale_degrees()
 
     @property
     def scale_degrees(self):

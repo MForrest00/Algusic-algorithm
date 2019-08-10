@@ -1,4 +1,4 @@
-from algorithm.music_structures.scale_context import OctavedScaleContext
+from algorithm.music_elements.scale_context import OctavedScaleContext
 
 
 class WesternOctavedScaleContext(OctavedScaleContext):

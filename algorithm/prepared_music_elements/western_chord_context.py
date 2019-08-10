@@ -1,4 +1,4 @@
-from algorithm.music_structures.chord_context import ChordContext
+from algorithm.music_elements.chord_context import ChordContext
 
 
 class WesternChordContext(ChordContext):

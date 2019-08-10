@@ -1,5 +1,5 @@
-from algorithm.music_structures.chromatic_context import TrueOctavedChromaticContext
-from algorithm.music_structures.scale_context import OctavedScaleContext
+from algorithm.music_elements.chromatic_context import TrueOctavedChromaticContext
+from algorithm.music_elements.scale_context import OctavedScaleContext
 
 
 class AppliedOctavedScaleContext:
