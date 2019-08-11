@@ -5,6 +5,7 @@ from algorithm.general_tools.option_probabilities import OCTAVE_RANGES, SINGLE_O
 
 
 class ChromaticContext:
+    NOTE_NAMES = list(ascii_uppercase)
 
     def __init__(self, minimum_hz=NORMAL_MUSIC_RANGE.lower_hz, maximum_hz=NORMAL_MUSIC_RANGE.upper_hz - 1,
                  anchor_hz=None):
@@ -12,7 +13,7 @@ class ChromaticContext:
         self.maximum_hz = maximum_hz
         self.anchor_hz = anchor_hz or float(randint(self.minimum_hz, self.maximum_hz))
         self.chromatic_scale = []
-        self.named_chromatic_scale = []
+        self.note_names = []
 
     @property
     def anchor_hz(self):
@@ -24,22 +25,31 @@ class ChromaticContext:
             return Exception('Anchor hz must be between minimum hz and maximum hz inclusive')
         self._anchor_hz = anchor_hz
 
-    def generate_named_chromatic_scale(self):
+    def generate_note_names(self):
         octaves = []
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
             scale = []
             for j, note in enumerate(single_octave_chromatic_scale):
                 if note is None:
+                    scale.append(None)
                     continue
-                quotient, remainder = divmod(j, len(ascii_uppercase))
+                quotient, remainder = divmod(j, len(ChromaticContext.NOTE_NAMES))
                 note_name = ascii_uppercase[remainder]
                 while quotient > 0:
-                    quotient, remainder = divmod(quotient - 1, len(ascii_uppercase))
+                    quotient, remainder = divmod(quotient - 1, len(ChromaticContext.NOTE_NAMES))
                     note_name = ascii_uppercase[remainder] + note_name
                 note_name = note_name + str(i)
-                scale.append({note_name: note})
+                scale.append(note_name)
             octaves.append(scale)
         return octaves
+
+    @property
+    def named_chromatic_scale(self):
+        if not hasattr(self, '_named_chromatic_scale'):
+            self._named_chromatic_scale = \
+                [[(name, note) for note, name in zip(chromatic_scale, note_names)]
+                 for chromatic_scale, note_names in zip(self.chromatic_scale, self.note_names)]
+        return self._named_chromatic_scale
 
     @property
     def flat_chromatic_scale(self):
@@ -49,10 +59,18 @@ class ChromaticContext:
         return self._flat_chromatic_scale
 
     @property
+    def flat_note_names(self):
+        if not hasattr(self, '_flat_note_names'):
+            self._flat_note_names = [note for single_octave_scale in self.note_names
+                                     for note in single_octave_scale if note is not None]
+        return self._flat_note_names
+
+    @property
     def flat_named_chromatic_scale(self):
         if not hasattr(self, '_flat_named_chromatic_scale'):
-            self._flat_named_chromatic_scale = [note for single_octave_scale in self.named_chromatic_scale
-                                                for note in single_octave_scale if note is not None]
+            self._flat_named_chromatic_scale = [(name, note) for single_octave_scale in self.named_chromatic_scale
+                                                for name, note in single_octave_scale
+                                                if note is not None and name is not None]
         return self._flat_named_chromatic_scale
 
 
@@ -87,7 +105,7 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
         self.chromatic_scale = self.generate_chromatic_scale()
-        self.named_chromatic_scale = self.generate_named_chromatic_scale()
+        self.note_names = self.generate_note_names()
 
     def generate_next_note(self, note):
         return note * pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
@@ -114,7 +132,7 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
         super().__init__(**kwargs)
         self.note_ratios = note_ratios or self.generate_note_ratios()
         self.chromatic_scale = self.generate_chromatic_scale()
-        self.named_chromatic_scale = self.generate_named_chromatic_scale()
+        self.note_names = self.generate_note_names()
 
     @property
     def standard_note_ratio(self):

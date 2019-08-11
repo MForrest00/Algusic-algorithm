@@ -1,0 +1,2 @@
+class SongStructure:
+    pass

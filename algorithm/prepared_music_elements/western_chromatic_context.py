@@ -33,24 +33,20 @@ class WesternChromaticContext(TrueOctavedChromaticContext):
                 note_name_components.append((ordered_note_name, 0))
         return note_name_components
 
-    @property
-    def named_chromatic_scale(self):
+    def generate_note_names(self):
         octaves = []
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
             scale = []
             for note, note_name_components in zip(single_octave_chromatic_scale,
                                                   self.generate_note_name_components()):
                 if note is None:
+                    scale.append(None)
                     continue
                 letter_component, octave_number_component = note_name_components
                 note_name = letter_component + str(octave_number_component + i)
-                scale.append({note_name: note})
+                scale.append(note_name)
             octaves.append(scale)
         return octaves
-
-    @named_chromatic_scale.setter
-    def named_chromatic_scale(self, named_chromatic_scale):
-        pass
 
 
 class WesternEqualTemperedChromaticContext(EqualTemperedTrueOctavedChromaticContext, WesternChromaticContext):

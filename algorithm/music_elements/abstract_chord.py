@@ -1,4 +1,4 @@
-class OctavedChordContext:
+class OctavedAbstractChord:
 
     def __init__(self, chord_degrees):
         self.chord_degrees = chord_degrees
