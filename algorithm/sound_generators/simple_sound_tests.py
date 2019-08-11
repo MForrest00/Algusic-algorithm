@@ -47,5 +47,5 @@ def test_7():
 
 def test_8():
     scale = AppliedOctavedScaleContext(WesternEqualTempered440ChromaticContext, MajorScaleContext)
-    chord = AppliedOctavedChordContext(scale, MajorChordContext)
+    chord = AppliedOctavedChordContext(scale, MajorChordContext, chord_anchor='D4')
     simple_sound_generator.play_applied_octaved_chord(chord)

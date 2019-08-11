@@ -18,8 +18,8 @@ class SimpleSoundGenerator:
         scale = deque(reversed(scale))
         reverse_scale = deque()
         self.server.boot()
-        amp = Fader(fadein=0.005, fadeout=0.05, mul=.15)
-        osc = RCOsc(freq=100, mul=amp).out()
+        amp = Fader(fadein=0.005, fadeout=0.05, mul=0.15)
+        osc = RCOsc(freq=[100], mul=amp).out()
 
         def get_next_note():
             nonlocal scale
@@ -33,6 +33,8 @@ class SimpleSoundGenerator:
                 scale = reverse_scale.copy()
                 reverse_scale.clear()
                 next_freq = scale.pop()
+            if not isinstance(next_freq, list):
+                next_freq = [next_freq]
             reverse_scale.append(next_freq)
             osc.freq = next_freq
             amp.play()
@@ -68,6 +70,7 @@ class SimpleSoundGenerator:
         self.play_scale(chromatic_scale + scale)
 
     def play_applied_octaved_chord(self, applied_chord):
+        print(applied_chord.chord)
         self.play_scale([applied_chord.chord])
 
 

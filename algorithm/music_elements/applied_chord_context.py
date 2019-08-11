@@ -31,13 +31,13 @@ class AppliedOctavedChordContext:
         self._chord_context = chord_context
 
     def generate_chord(self):
-        if isinstance(self, str):
+        if isinstance(self.chord_anchor, str):
             note_names = [k for i in self.applied_scale_context.chromatic_context.flat_named_chromatic_scale
                           for k, v in i.items()]
             chord_anchor = note_names.index(self.chord_anchor)
-        if isinstance(self.chord_anchor, int):
+        elif isinstance(self.chord_anchor, int):
             chord_anchor = self.chord_anchor
-        elif isinstance(self.chord_anchor, float):
+        else:
             chord_anchor = self.applied_scale_context.chromatic_context.flat_chromatic_scale.index(self.chord_anchor)
         chord = [self.applied_scale_context.chromatic_context.flat_chromatic_scale[chord_anchor]]
         for chord_degree in self.chord_context.chord_degrees:

@@ -76,9 +76,9 @@ class AppliedOctavedScaleContext:
             note_names = [k for i in self.chromatic_context.flat_named_chromatic_scale for k, v in i.items()]
             return [i for i, note_name in enumerate(note_names)
                     if ''.join(j for j in note_name if not j.isdigit()) == self.scale_anchor]
-        if isinstance(self.scale_anchor, int):
+        elif isinstance(self.scale_anchor, int):
             scale_anchor = self.scale_anchor
-        elif isinstance(self.scale_anchor, float):
+        else:
             scale_anchor = self.chromatic_context.flat_chromatic_scale.index(self.scale_anchor)
         tonic_indexes = [scale_anchor]
         while True:
