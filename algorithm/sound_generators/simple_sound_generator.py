@@ -19,7 +19,7 @@ class SimpleSoundGenerator:
         reverse_scale = deque()
         self.server.boot()
         amp = Fader(fadein=0.005, fadeout=0.05, mul=0.15)
-        osc = RCOsc(freq=[100], mul=amp).out()
+        osc = RCOsc(freq=[100] * max([1] + [len(i) for i in scale if isinstance(i, list)]), mul=amp).out()
 
         def get_next_note():
             nonlocal scale
@@ -40,6 +40,7 @@ class SimpleSoundGenerator:
             amp.play()
 
         pat = Pattern(function=get_next_note, time=0.5).play()
+        # self.server.gui(locals())
         self.server.start()
         input('Press enter to stop playback')
         self.server.stop()

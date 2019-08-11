@@ -6,6 +6,7 @@ verify_ssl = true
 [dev-packages]
 selenium = "*"
 flake8 = "*"
+wxpython = "*"
 
 [packages]
 pyo = "*"
