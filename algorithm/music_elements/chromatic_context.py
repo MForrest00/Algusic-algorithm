@@ -10,7 +10,7 @@ class ChromaticContext:
                  anchor_hz=None):
         self.minimum_hz = minimum_hz
         self.maximum_hz = maximum_hz
-        self.anchor_hz = anchor_hz or randint(self.minimum_hz, self.maximum_hz)
+        self.anchor_hz = anchor_hz or float(randint(self.minimum_hz, self.maximum_hz))
         self.chromatic_scale = []
         self.named_chromatic_scale = []
 

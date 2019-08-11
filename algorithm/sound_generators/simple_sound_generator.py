@@ -67,5 +67,8 @@ class SimpleSoundGenerator:
                                                            applied_scale.chromatic_context.octave_range), scale)
         self.play_scale(chromatic_scale + scale)
 
+    def play_applied_octaved_chord(self, applied_chord):
+        self.play_scale([applied_chord.chord])
+
 
 simple_sound_generator = SimpleSoundGenerator()

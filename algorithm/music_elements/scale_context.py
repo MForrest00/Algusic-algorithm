@@ -15,7 +15,7 @@ class OctavedScaleContext:
     @scale_degrees.setter
     def scale_degrees(self, scale_degrees):
         if max(scale_degrees) > self.chromatic_single_octave_note_count - 1:
-            raise Exception('Highest scale degree cannot be greater than the number of notes in a single octave')
+            raise ValueError('Highest scale degree cannot be greater than the number of notes in a single octave')
         self._scale_degrees = scale_degrees
 
     def generate_scale_degrees(self):

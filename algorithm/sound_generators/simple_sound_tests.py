@@ -1,7 +1,9 @@
+from algorithm.music_elements.applied_chord_context import AppliedOctavedChordContext
 from algorithm.music_elements.applied_scale_context import AppliedOctavedScaleContext
 from algorithm.music_elements.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
     UnequalTemperedTrueOctavedChromaticContext
 from algorithm.music_elements.scale_context import OctavedScaleContext
+from algorithm.prepared_music_elements.western_chord_context import MajorChordContext
 from algorithm.prepared_music_elements.western_chromatic_context import WesternEqualTempered440ChromaticContext, \
     WesternJustTemperedA440ChromaticContext
 from algorithm.prepared_music_elements.western_scale_context import MajorScaleContext, PhrygianScaleContext
@@ -41,3 +43,9 @@ def test_7():
     scale = OctavedScaleContext(chromatic_single_octave_note_count=chromatic_scale.single_octave_note_count)
     applied_scale = AppliedOctavedScaleContext(chromatic_scale, scale)
     simple_sound_generator.play_applied_octaved_scale_with_chromatic(applied_scale)
+
+
+def test_8():
+    scale = AppliedOctavedScaleContext(WesternEqualTempered440ChromaticContext, MajorScaleContext)
+    chord = AppliedOctavedChordContext(scale, MajorChordContext)
+    simple_sound_generator.play_applied_octaved_chord(chord)

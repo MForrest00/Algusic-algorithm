@@ -7,7 +7,7 @@ class AppliedOctavedScaleContext:
     def __init__(self, chromatic_context, scale_context, scale_anchor=None):
         self.chromatic_context = chromatic_context
         self.scale_context = scale_context
-        self.scale_anchor = scale_anchor
+        self.scale_anchor = scale_anchor or self.chromatic_context.anchor_hz
         self.flat_tonic_indexes = self.generate_flat_tonic_indexes()
         self.named_scale, self.named_altered_scale = self.generate_named_scale()
 
@@ -18,7 +18,7 @@ class AppliedOctavedScaleContext:
     @chromatic_context.setter
     def chromatic_context(self, chromatic_context):
         if not isinstance(chromatic_context, TrueOctavedChromaticContext):
-            raise Exception('Chromatic context must be of type TrueOctavedChromaticContext')
+            raise TypeError('Chromatic context must be of type TrueOctavedChromaticContext')
         self._chromatic_context = chromatic_context
 
     @property
@@ -28,9 +28,9 @@ class AppliedOctavedScaleContext:
     @scale_context.setter
     def scale_context(self, scale_context):
         if not isinstance(scale_context, OctavedScaleContext):
-            raise Exception('Scale context must be of type OctavedScaleContext')
+            raise TypeError('Scale context must be of type OctavedScaleContext')
         if scale_context.chromatic_single_octave_note_count != self.chromatic_context.single_octave_note_count:
-            raise Exception('Scale context and chromatic context must have same single octave note count')
+            raise ValueError('Scale context and chromatic context must have same single octave note count')
         self._scale_context = scale_context
 
     @property
@@ -80,8 +80,6 @@ class AppliedOctavedScaleContext:
             scale_anchor = self.scale_anchor
         elif isinstance(self.scale_anchor, float):
             scale_anchor = self.chromatic_context.flat_chromatic_scale.index(self.scale_anchor)
-        else:
-            scale_anchor = self.chromatic_context.flat_chromatic_scale.index(self.chromatic_context.anchor_hz)
         tonic_indexes = [scale_anchor]
         while True:
             next_index = tonic_indexes[-1] + self.chromatic_context.single_octave_note_count
