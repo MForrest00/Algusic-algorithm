@@ -7,4 +7,4 @@ class OctavedAbstractChord:
         return '{}({})'.format(note_name, '-'.join(['R'] + list(map(str, self.chord_degrees))))
 
     def render_symbol_with_inversion(self, note_name, inversion_note_name):
-        return '{}\\{}'.format(self.render_symbol(note_name), inversion_note_name)
+        return f'{self.render_symbol(note_name)}\\{inversion_note_name}'

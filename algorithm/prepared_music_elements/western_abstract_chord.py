@@ -15,7 +15,7 @@ class WesternOctavedAbstractChord(OctavedAbstractChord):
         return symbol.replace('_', note_name)
 
     def render_symbol_with_inversion(self, note_name, inversion_note_name, symbol=None):
-        return '{}\\{}'.format(self.render_symbol(note_name, symbol=symbol), inversion_note_name)
+        return f'{self.render_symbol(note_name, symbol=symbol)}\\{inversion_note_name}'
 
 
 MajorAbstractChord = \
