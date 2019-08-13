@@ -1,4 +1,4 @@
-from algorithm.music_elements.abstract_scale import OctavedAbstractScale
+from algorithm.music_elements.pitched_elements.abstract_scale import OctavedAbstractScale
 
 
 class WesternOctavedAbstractScale(OctavedAbstractScale):

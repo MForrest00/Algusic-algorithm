@@ -11,4 +11,4 @@ UPPER_MIDRANGE_RANGE = FrequencyRange(lower_hz=2000, upper_hz=4000)
 PRESENCE_RANGE = FrequencyRange(lower_hz=4000, upper_hz=6000)
 BRILLIANCE_RANGE = FrequencyRange(lower_hz=6000, upper_hz=20000)
 
-NORMAL_MUSIC_RANGE = FrequencyRange(lower_hz=SUB_BASS_RANGE.lower_hz, upper_hz=PRESENCE_RANGE.upper_hz)
+NORMAL_MUSIC_FREQUENCY_RANGE = FrequencyRange(lower_hz=SUB_BASS_RANGE.lower_hz, upper_hz=PRESENCE_RANGE.upper_hz)

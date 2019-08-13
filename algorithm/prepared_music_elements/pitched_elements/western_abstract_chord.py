@@ -1,4 +1,4 @@
-from algorithm.music_elements.abstract_chord import OctavedAbstractChord
+from algorithm.music_elements.pitched_elements.abstract_chord import OctavedAbstractChord
 
 
 class WesternOctavedAbstractChord(OctavedAbstractChord):

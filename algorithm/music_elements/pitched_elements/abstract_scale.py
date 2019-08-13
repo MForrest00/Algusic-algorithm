@@ -1,5 +1,5 @@
 from random import choices
-from algorithm.general_tools.option_probabilities import SCALE_DEGREES_INCREMENT
+from algorithm.general_tools.option_probabilities import SCALE_DEGREES_INCREMENTS
 
 
 class OctavedAbstractScale:
@@ -22,8 +22,8 @@ class OctavedAbstractScale:
         scale_degrees = []
         current_degree = 0
         while True:
-            current_degree += choices(SCALE_DEGREES_INCREMENT.options,
-                                      weights=SCALE_DEGREES_INCREMENT.probabilities)[0]
+            current_degree += choices(SCALE_DEGREES_INCREMENTS.options,
+                                      weights=SCALE_DEGREES_INCREMENTS.probabilities)[0]
             if current_degree > self.chromatic_single_octave_note_count - 1:
                 break
             scale_degrees.append(current_degree)

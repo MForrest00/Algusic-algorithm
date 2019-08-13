@@ -8,12 +8,14 @@ class SimpleSoundGenerator:
         self.server = Server()
 
     def play_sequences(self, *sequences):
+        max_frequency_list_length = max([1] + [len(i) for sequence in sequences
+                                               for i in sequence if isinstance(i, list)])
         sequences = deque([deque(sequence) for sequence in sequences])
         sequence = sequences.pop()
         sequences.appendleft(sequence.copy())
         self.server.boot()
         amp = Fader(fadein=0.005, fadeout=0.05, mul=0.15)
-        osc = RCOsc(freq=[100] * max([1] + [len(i) for i in sequence if isinstance(i, list)]), mul=amp).out()
+        osc = RCOsc(freq=[100] * max_frequency_list_length, mul=amp).out()
 
         def get_next_note():
             nonlocal sequences

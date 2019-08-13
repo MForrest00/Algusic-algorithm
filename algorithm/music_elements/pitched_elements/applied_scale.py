@@ -1,5 +1,5 @@
-from algorithm.music_elements.abstract_scale import OctavedAbstractScale
-from algorithm.music_elements.chromatic_context import TrueOctavedChromaticContext
+from algorithm.music_elements.pitched_elements.abstract_scale import OctavedAbstractScale
+from algorithm.music_elements.pitched_elements.chromatic_context import TrueOctavedChromaticContext
 
 
 class AppliedOctavedScale:

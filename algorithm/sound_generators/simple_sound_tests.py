@@ -1,13 +1,14 @@
 from math import ceil
-from algorithm.music_elements.abstract_scale import OctavedAbstractScale
-from algorithm.music_elements.applied_chord import AppliedOctavedChord
-from algorithm.music_elements.applied_scale import AppliedOctavedScale
-from algorithm.music_elements.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
+from algorithm.music_elements.pitched_elements.abstract_scale import OctavedAbstractScale
+from algorithm.music_elements.pitched_elements.applied_chord import AppliedOctavedChord
+from algorithm.music_elements.pitched_elements.applied_scale import AppliedOctavedScale
+from algorithm.music_elements.pitched_elements.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
     UnequalTemperedTrueOctavedChromaticContext
-from algorithm.prepared_music_elements.western_abstract_chord import MajorAbstractChord
-from algorithm.prepared_music_elements.western_abstract_scale import MajorAbstractScale, PhrygianAbstractScale
-from algorithm.prepared_music_elements.western_chromatic_context import WesternEqualTempered440ChromaticContext, \
-    WesternJustTemperedA440ChromaticContext
+from algorithm.prepared_music_elements.pitched_elements.western_abstract_chord import MajorAbstractChord
+from algorithm.prepared_music_elements.pitched_elements.western_abstract_scale import MajorAbstractScale, \
+    PhrygianAbstractScale
+from algorithm.prepared_music_elements.pitched_elements.western_chromatic_context \
+    import WesternEqualTempered440ChromaticContext, WesternJustTemperedA440ChromaticContext
 from algorithm.sound_generators.simple_sound_generator import simple_sound_generator
 
 

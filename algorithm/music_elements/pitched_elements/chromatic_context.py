@@ -1,14 +1,14 @@
 from random import choices, gauss, randint
 from string import ascii_uppercase
-from algorithm.general_tools.frequency_ranges import NORMAL_MUSIC_RANGE
+from algorithm.general_tools.frequency_ranges import NORMAL_MUSIC_FREQUENCY_RANGE
 from algorithm.general_tools.option_probabilities import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class ChromaticContext:
     NOTE_NAMES = list(ascii_uppercase)
 
-    def __init__(self, minimum_hz=NORMAL_MUSIC_RANGE.lower_hz, maximum_hz=NORMAL_MUSIC_RANGE.upper_hz - 1,
-                 anchor_hz=None):
+    def __init__(self, minimum_hz=NORMAL_MUSIC_FREQUENCY_RANGE.lower_hz,
+                 maximum_hz=NORMAL_MUSIC_FREQUENCY_RANGE.upper_hz - 1, anchor_hz=None):
         self.minimum_hz = minimum_hz
         self.maximum_hz = maximum_hz
         self.anchor_hz = anchor_hz or float(randint(self.minimum_hz, self.maximum_hz))

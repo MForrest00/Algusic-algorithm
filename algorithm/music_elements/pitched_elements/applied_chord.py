@@ -1,5 +1,5 @@
-from algorithm.music_elements.abstract_chord import OctavedAbstractChord
-from algorithm.music_elements.applied_scale import AppliedOctavedScale
+from algorithm.music_elements.pitched_elements.abstract_chord import OctavedAbstractChord
+from algorithm.music_elements.pitched_elements.applied_scale import AppliedOctavedScale
 
 
 class AppliedOctavedChord:
@@ -29,6 +29,21 @@ class AppliedOctavedChord:
         if not isinstance(abstract_chord, OctavedAbstractChord):
             raise TypeError('Abstract chord must be of type OctavedAbstractChord')
         self._abstract_chord = abstract_chord
+
+    @property
+    def symbol(self):
+        if not hasattr(self, '_symbol'):
+            if isinstance(self.chord_anchor, str):
+                note_name = self.chord_anchor
+            else:
+                if isinstance(self.chord_anchor, int):
+                    target_index = self.chord_anchor
+                else:
+                    target_index = self.applied_scale.chromatic_context.flat_chromatic_scale.index(self.chord_anchor)
+                note_name = self.applied_scale.chromatic_context.flat_note_names[target_index]
+            note_name = ''.join(j for j in note_name if not j.isdigit())
+            self._symbol = self.render_symbol(note_name)
+        return self._symbol
 
     def generate_chord(self):
         if isinstance(self.chord_anchor, int):
