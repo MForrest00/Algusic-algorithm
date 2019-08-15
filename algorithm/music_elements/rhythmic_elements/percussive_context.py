@@ -1,7 +1,11 @@
 from bisect import bisect_left
+from collections import namedtuple
 import os
 import numpy as np
 from scipy.io import wavfile
+
+
+Sample = namedtuple('Sample', ['mean_frequency', 'length', 'instrument_name', 'file_path'])
 
 
 class PercussiveContext:
@@ -31,12 +35,12 @@ class PercussiveContext:
             length = len(data) / bitrate
             if length > self.maximum_sample_length:
                 continue
-            spec = np.abs(np.fft.rfft(data))
-            frequency = np.fft.rfftfreq(len(data), d=1 / bitrate)
-            amplitude = spec / spec.sum()
+            spectrum = np.abs(np.fft.rfft(data))
+            frequency = np.fft.rfftfreq(len(data), d=1/bitrate)
+            amplitude = spectrum / spectrum.sum()
             mean_frequency = (frequency * amplitude).sum()
-            instrument = sample_file.split(os.sep)[-2]
+            instrument_name = sample_file.split(os.sep)[-2]
             index = bisect_left(keys, mean_frequency)
             keys.insert(index, mean_frequency)
-            samples.insert(index, (mean_frequency, length, instrument, sample_file))
+            samples.insert(index, Sample(mean_frequency, length, instrument_name, sample_file))
         return samples
