@@ -54,10 +54,14 @@ class SongSkeleton:
         return elapsed_beats / (self.tempo / 60)
 
     def generate_bars(self):
-        bars = []
+        bars = list()
         while self.calculate_elapsed_seconds(sum(bars)) < self.song_length:
             bars.append(self.bar_beats)
         if self.bar_count_modulus is not None:
             while len(bars) % self.bar_count_modulus != 0:
                 bars.append(self.bar_beats)
         return bars
+
+
+class SectionSongSkeleton(SongSkeleton):
+    pass

@@ -19,7 +19,7 @@ class OctavedAbstractScale:
         self._scale_degrees = scale_degrees
 
     def generate_scale_degrees(self):
-        scale_degrees = []
+        scale_degrees = list()
         current_degree = 0
         while True:
             current_degree += choices(SCALE_DEGREES_INCREMENTS.options,

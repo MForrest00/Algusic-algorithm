@@ -1,4 +1,4 @@
-from algorithm.music_elements.song_section import SongSection
+from algorithm.music_elements.structural_elements.song_section import SongSection
 
 
 class WesternSongSection(SongSection):

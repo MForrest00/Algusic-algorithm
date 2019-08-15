@@ -22,7 +22,7 @@ class WesternChromaticContext(TrueOctavedChromaticContext):
         note_index = WesternChromaticContext.NOTE_NAMES.index(self.anchor_note_name)
         ordered_note_names = WesternChromaticContext.NOTE_NAMES[note_index:] + \
             WesternChromaticContext.NOTE_NAMES[:note_index]
-        note_name_components = []
+        note_name_components = list()
         c_encountered = False
         for ordered_note_name in ordered_note_names:
             if ordered_note_name == 'C':
@@ -34,9 +34,9 @@ class WesternChromaticContext(TrueOctavedChromaticContext):
         return note_name_components
 
     def generate_note_names(self):
-        octaves = []
+        octaves = list()
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
-            scale = []
+            scale = list()
             for note, note_name_components in zip(single_octave_chromatic_scale,
                                                   self.generate_note_name_components()):
                 if note is None:

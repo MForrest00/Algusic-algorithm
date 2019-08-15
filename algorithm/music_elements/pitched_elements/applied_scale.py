@@ -120,11 +120,11 @@ class AppliedOctavedScale:
         return tonic_indexes
 
     def generate_named_scale(self):
-        scale_octaves = []
-        altered_scale_octaves = []
+        scale_octaves = list()
+        altered_scale_octaves = list()
         for flat_tonic_index in self.flat_tonic_indexes:
-            scale = []
-            altered_scale = []
+            scale = list()
+            altered_scale = list()
             for i in range(self.chromatic_context.single_octave_note_count):
                 target_index = flat_tonic_index + i
                 if target_index < 0:

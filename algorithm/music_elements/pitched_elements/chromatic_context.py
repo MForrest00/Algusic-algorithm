@@ -12,8 +12,8 @@ class ChromaticContext:
         self.minimum_hz = minimum_hz
         self.maximum_hz = maximum_hz
         self.anchor_hz = anchor_hz or float(randint(self.minimum_hz, self.maximum_hz))
-        self.chromatic_scale = []
-        self.note_names = []
+        self.chromatic_scale = list()
+        self.note_names = list()
 
     @property
     def anchor_hz(self):
@@ -26,9 +26,9 @@ class ChromaticContext:
         self._anchor_hz = anchor_hz
 
     def generate_note_names(self):
-        octaves = []
+        octaves = list()
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
-            scale = []
+            scale = list()
             for j, note in enumerate(single_octave_chromatic_scale):
                 if note is None:
                     scale.append(None)
@@ -85,7 +85,7 @@ class TrueOctavedChromaticContext(ChromaticContext):
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note): return []
 
     def generate_chromatic_scale(self):
-        octaves = []
+        octaves = list()
         current_note = self.anchor_hz
         while current_note <= self.maximum_hz:
             octaves.append(self.generate_single_octave_chromatic_scale_from_anchor_note(current_note))
@@ -114,7 +114,7 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
         return note / pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note):
-        scale = []
+        scale = list()
         current_note = anchor_note
         for _ in range(self.single_octave_note_count):
             if self.minimum_hz <= current_note <= self.maximum_hz:

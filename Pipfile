@@ -10,6 +10,7 @@ wxpython = "*"
 
 [packages]
 pyo = "*"
+scipy = "*"
 
 [requires]
 python_version = "3.7"

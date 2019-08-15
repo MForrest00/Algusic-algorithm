@@ -13,7 +13,7 @@ class SongSection:
         section_repetition_factor -- influences likelihood to repeat lines from an earlier section of the same type
         density_factor -- influences likelihood to add more elements to the section
         volume_intensity_factor -- influences volumes generated in the section
-        layering_factor -- influences likelihood to layer lines throughtout the section
+        layering_factor -- influences likelihood to layer lines throughout the section
         """
         self.line_repetition_factor = line_repetition_factor or self.generate_random_factor()
         self.section_repetition_factor = section_repetition_factor or self.generate_random_factor()
