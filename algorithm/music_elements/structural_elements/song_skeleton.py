@@ -1,4 +1,5 @@
-from random import choices, gauss
+from math import ceil
+from random import choices, gauss, randint
 from algorithm.general_tools.option_probabilities import BAR_BEATS
 from algorithm.general_tools.tempo_ranges import NORMAL_MUSIC_TEMPO_RANGE
 
@@ -63,5 +64,18 @@ class SongSkeleton:
         return bars
 
 
-class SectionSongSkeleton(SongSkeleton):
-    pass
+class SectionedSongSkeleton(SongSkeleton):
+
+    def __init__(self, minimum_sections=3, minimum_section_length=10, section_count=None, **kwargs):
+        super().__init__(**kwargs)
+        self.minimum_sections = minimum_sections
+        self.minimum_section_length = minimum_section_length
+        self.section_count = section_count or self.generate_section_count()
+
+    def generate_section_count(self):
+        required_beats = ceil(self.minimum_section_length * (self.tempo / 60))
+        required_bars = ceil(required_beats / self.bar_beats)
+        maximum_sections = len(self.bars) // required_bars
+        if maximum_sections >= self.minimum_sections:
+            return randint(self.minimum_sections, maximum_sections)
+        return randint(1, max(1, maximum_sections))
