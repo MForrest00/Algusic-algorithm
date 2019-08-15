@@ -66,16 +66,47 @@ class SongSkeleton:
 
 class SectionedSongSkeleton(SongSkeleton):
 
-    def __init__(self, minimum_sections=3, minimum_section_length=10, section_count=None, **kwargs):
+    def __init__(self, minimum_sections=3, maximum_sections=None, minimum_section_length=10, section_count=None,
+                 **kwargs):
         super().__init__(**kwargs)
         self.minimum_sections = minimum_sections
+        self.maximum_sections = maximum_sections
         self.minimum_section_length = minimum_section_length
         self.section_count = section_count or self.generate_section_count()
 
+    @property
+    def minimum_sections(self):
+        return self._minimum_sections
+
+    @minimum_sections.setter
+    def minimum_sections(self, minimum_sections):
+        if minimum_sections is not None:
+            if not isinstance(minimum_sections, int):
+                raise TypeError('Minimum section count must be an integer or None')
+        self._minimum_sections = minimum_sections
+
+    @property
+    def maximum_sections(self):
+        return self._maximum_sections
+
+    @maximum_sections.setter
+    def maximum_sections(self, maximum_sections):
+        if maximum_sections is not None:
+            if not isinstance(maximum_sections, int) or maximum_sections <= 0:
+                raise TypeError('Maximum section count must be an integer greater than 0 or None')
+            if self.minimum_sections is not None and maximum_sections < self.minimum_sections:
+                raise ValueError('Maximum section count must be greater than the minimum section count')
+        self._maximum_sections = maximum_sections
+
     def generate_section_count(self):
-        required_beats = ceil(self.minimum_section_length * (self.tempo / 60))
-        required_bars = ceil(required_beats / self.bar_beats)
-        maximum_sections = len(self.bars) // required_bars
-        if maximum_sections >= self.minimum_sections:
+        maximum_sections = [len(self.bars)]
+        if self.minimum_section_length is not None:
+            required_beats = ceil(self.minimum_section_length * (self.tempo / 60))
+            required_bars = ceil(required_beats / self.bar_beats)
+            maximum_sections.append(len(self.bars) // required_bars)
+        if self.maximum_sections is not None:
+            maximum_sections.append(self.maximum_sections)
+        maximum_sections = min(maximum_sections)
+        if self.minimum_sections is not None and maximum_sections >= self.minimum_sections:
             return randint(self.minimum_sections, maximum_sections)
         return randint(1, max(1, maximum_sections))

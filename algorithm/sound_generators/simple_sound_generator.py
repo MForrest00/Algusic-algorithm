@@ -7,7 +7,7 @@ class SimpleSoundGenerator:
     def __init__(self):
         self.server = Server()
 
-    def play_sequences(self, *sequences):
+    def play_pitch_sequences(self, *sequences):
         max_frequency_list_length = max([1] + [len(i) for sequence in sequences
                                                for i in sequence if isinstance(i, list)])
         sequences = deque([deque(sequence) for sequence in sequences])
