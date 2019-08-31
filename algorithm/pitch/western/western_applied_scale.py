@@ -14,7 +14,7 @@ class WesternAppliedScale(AppliedOctavedScale):
 
     @chromatic_context.setter
     def chromatic_context(self, chromatic_context):
-        if not issubclass(chromatic_context, WesternChromaticContext):
+        if not issubclass(chromatic_context.__class__, WesternChromaticContext):
             raise TypeError('Chromatic context must be a subclass of WesternChromaticContext')
         self._chromatic_context = chromatic_context
 
