@@ -14,6 +14,9 @@ class OptionProbabilityContainer:
     def probabilities(self):
         return [option_probability.probability for option_probability in self.option_probabilities]
 
+    def __iter__(self):
+        return iter(self.option_probabilities)
+
 
 OptionProbability = namedtuple('OptionProbability', ['option', 'probability'])
 

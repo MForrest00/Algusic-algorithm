@@ -9,7 +9,7 @@ class AppliedOctavedScale:
         self.abstract_scale = abstract_scale
         self.scale_anchor = scale_anchor or self.chromatic_context.anchor_hz
         self.flat_tonic_indexes = self.generate_flat_tonic_indexes()
-        self.named_scale, self.named_altered_scale = self.generate_named_scale()
+        self.named_scale, self.altered_named_scale = self.generate_named_scale()
 
     @property
     def chromatic_context(self):
@@ -40,11 +40,11 @@ class AppliedOctavedScale:
         return self._flat_named_scale
 
     @property
-    def flat_named_altered_scale(self):
-        if not hasattr(self, '_flat_named_altered_scale'):
-            self._flat_named_altered_scale = [note for single_octave_scale in self.named_altered_scale
+    def flat_altered_named_scale(self):
+        if not hasattr(self, '_flat_altered_named_scale'):
+            self._flat_altered_named_scale = [note for single_octave_scale in self.altered_named_scale
                                               for note in single_octave_scale]
-        return self._flat_named_altered_scale
+        return self._flat_altered_named_scale
 
     @property
     def scale(self):
@@ -75,7 +75,7 @@ class AppliedOctavedScale:
     def altered_scale(self):
         if not hasattr(self, '_altered_scale'):
             self._altered_scale = [[note for name, note in single_octave_scale]
-                                   for single_octave_scale in self.named_altered_scale]
+                                   for single_octave_scale in self.altered_named_scale]
         return self._altered_scale
 
     @property
@@ -89,7 +89,7 @@ class AppliedOctavedScale:
     def altered_note_names(self):
         if not hasattr(self, '_altered_note_names'):
             self._altered_note_names = [[name for name, note in single_octave_scale]
-                                        for single_octave_scale in self.named_altered_scale]
+                                        for single_octave_scale in self.altered_named_scale]
         return self._altered_note_names
 
     @property
