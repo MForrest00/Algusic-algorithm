@@ -11,4 +11,4 @@ class TestOctavedAbstractScale(unittest.TestCase):
             for s in range(100):
                 random.seed(s)
                 abstract_scale = OctavedAbstractScale(single_octave_note_count.option)
-                self.assertLessEqual(abstract_scale.scale_degrees[-1], single_octave_note_count.option - 1)
+                self.assertLess(max(abstract_scale.scale_degrees), abstract_scale.chromatic_single_octave_note_count)

@@ -63,7 +63,7 @@ class WesternEqualTemperedChromaticContext(EqualTemperedTrueOctavedChromaticCont
                          single_octave_note_count=12)
 
     def __str__(self):
-        return f'Classic western equal tempered chromatic context, with A4 on {self.anchor_hz} hz'
+        return f'Classic western equal tempered chromatic context, with {self.anchor_note_name}4 on {self.anchor_hz} hz'
 
 
 class WesternJustTemperedChromaticContext(UnequalTemperedTrueOctavedChromaticContext, WesternChromaticContext):

@@ -4,7 +4,7 @@ from algorithm.pitch import AppliedOctavedScale, EqualTemperedTrueOctavedChromat
     UnequalTemperedTrueOctavedChromaticContext
 
 
-class TestAppliedOctavedScale(unittest.TestCase):
+class TestEqualTemperedAppliedOctavedScale(unittest.TestCase):
 
     def test_generate_equal_tempered_applied_octaved_scale(self):
         for s in range(100):
@@ -22,6 +22,9 @@ class TestAppliedOctavedScale(unittest.TestCase):
                    len(applied_scale.flat_altered_named_scale)
             self.assertEqual(len(applied_scale.flat_scale) + len(applied_scale.flat_altered_scale),
                              len(chromatic_context.flat_chromatic_scale))
+
+
+class TestUnequalTemperedAppliedOctavedScale(unittest.TestCase):
 
     def test_generate_unequal_tempered_applied_octaved_scale(self):
         for s in range(100):

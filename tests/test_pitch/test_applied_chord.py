@@ -4,7 +4,7 @@ from algorithm.pitch import AppliedOctavedChord, AppliedOctavedScale, EqualTempe
     OctavedAbstractScale, OctavedAbstractChord, UnequalTemperedTrueOctavedChromaticContext
 
 
-class TestAppliedOctavedChord(unittest.TestCase):
+class TestEqualTemperedAppliedOctavedChord(unittest.TestCase):
 
     def test_generate_equal_tempered_applied_octaved_chord(self):
         for s in range(100):
@@ -34,6 +34,9 @@ class TestAppliedOctavedChord(unittest.TestCase):
             else:
                 self.assertTrue(applied_chord.chord_degrees_in_scale)
             self.assertIsInstance(applied_chord.symbol, str)
+
+
+class TestUnequalTemperedAppliedOctavedChord(unittest.TestCase):
 
     def test_generate_unequal_tempered_applied_octaved_chord(self):
         for s in range(100):
