@@ -8,7 +8,7 @@ class AppliedOctavedScale:
         self.chromatic_context = chromatic_context
         self.abstract_scale = abstract_scale
         self.scale_anchor = scale_anchor or self.chromatic_context.anchor_hz
-        self.flat_tonic_indexes = self.generate_flat_tonic_indexes()
+        self.flat_tonic_indexes, self.scale_note = self.generate_flat_tonic_indexes()
         self.named_scale, self.altered_named_scale = self.generate_named_scale()
 
     @property
@@ -117,7 +117,7 @@ class AppliedOctavedScale:
             raise ValueError('Scale anchor must be present in the chromatic context')
         if tonic_indexes[0] != 0:
             tonic_indexes.insert(0, tonic_indexes[0] - self.chromatic_context.single_octave_note_count)
-        return tonic_indexes
+        return tonic_indexes, target_note
 
     def generate_named_scale(self):
         scale_octaves = list()

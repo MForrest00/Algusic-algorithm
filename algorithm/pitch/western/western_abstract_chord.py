@@ -16,11 +16,17 @@ __all__ = ['MajorAbstractChord', 'MinorAbstractChord', 'SixthAbstractChord', 'Mi
 
 class WesternOctavedAbstractChord(OctavedAbstractChord):
 
-    def __init__(self, chord_degrees, name=None, primary_symbol=None, alternative_symbols=None):
+    def __init__(self, chord_degrees, name, primary_symbol, alternative_symbols=None):
         super().__init__(chord_degrees)
         self.name = name
         self.primary_symbol = primary_symbol
-        self.alternative_symbols = alternative_symbols
+        self.alternative_symbols = alternative_symbols or []
+
+    def render_name(self, note_name):
+        return f'{note_name} {self.name}'
+
+    def render_name_with_inversion(self, note_name, inversion_note_name):
+        return f'{self.render_name(note_name)} over {inversion_note_name}'
 
     def render_symbol(self, note_name, symbol=None):
         if symbol is None:

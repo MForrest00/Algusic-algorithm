@@ -5,7 +5,7 @@ from algorithm.pitch import EqualTemperedTrueOctavedChromaticContext, UnequalTem
 
 class TestEqualTemperedTrueOctavedChromaticContext(unittest.TestCase):
 
-    def test_generate_chromatic_context(self):
+    def test_generate_equal_tempered_true_octaved_chromatic_context(self):
         for s in range(100):
             random.seed(s)
             chromatic_context = EqualTemperedTrueOctavedChromaticContext()
@@ -30,7 +30,7 @@ class TestEqualTemperedTrueOctavedChromaticContext(unittest.TestCase):
 
 class TestUnequalTemperedTrueOctavedChromaticContext(unittest.TestCase):
 
-    def test_generate_chromatic_context(self):
+    def test_generate_unequal_tempered_true_octaved_chromatic_context(self):
         for s in range(100):
             random.seed(s)
             chromatic_context = UnequalTemperedTrueOctavedChromaticContext()

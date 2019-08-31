@@ -6,12 +6,11 @@ from algorithm.pitch import AppliedOctavedScale, EqualTemperedTrueOctavedChromat
 
 class TestAppliedOctavedScale(unittest.TestCase):
 
-    def test_generate_equal_tempered_applied_scale(self):
+    def test_generate_equal_tempered_applied_octaved_scale(self):
         for s in range(100):
             random.seed(s)
             chromatic_context = EqualTemperedTrueOctavedChromaticContext()
-            abstract_scale = \
-                OctavedAbstractScale(chromatic_single_octave_note_count=chromatic_context.single_octave_note_count)
+            abstract_scale = OctavedAbstractScale(chromatic_context.single_octave_note_count)
             applied_scale = AppliedOctavedScale(chromatic_context, abstract_scale)
             assert len(applied_scale.note_names) == len(applied_scale.scale) == len(applied_scale.named_scale) == \
                    len(applied_scale.altered_note_names) == len(applied_scale.altered_scale) == \
@@ -24,12 +23,11 @@ class TestAppliedOctavedScale(unittest.TestCase):
             self.assertEqual(len(applied_scale.flat_scale) + len(applied_scale.flat_altered_scale),
                              len(chromatic_context.flat_chromatic_scale))
 
-    def test_generate_unequal_tempered_applied_scale(self):
+    def test_generate_unequal_tempered_applied_octaved_scale(self):
         for s in range(100):
             random.seed(s)
             chromatic_context = UnequalTemperedTrueOctavedChromaticContext()
-            abstract_scale = \
-                OctavedAbstractScale(chromatic_single_octave_note_count=chromatic_context.single_octave_note_count)
+            abstract_scale = OctavedAbstractScale(chromatic_context.single_octave_note_count)
             applied_scale = AppliedOctavedScale(chromatic_context, abstract_scale)
             assert len(applied_scale.note_names) == len(applied_scale.scale) == len(applied_scale.named_scale) == \
                    len(applied_scale.altered_note_names) == len(applied_scale.altered_scale) == \
