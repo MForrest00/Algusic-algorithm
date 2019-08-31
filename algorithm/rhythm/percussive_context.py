@@ -10,11 +10,20 @@ Sample = namedtuple('Sample', ['mean_frequency', 'length', 'sample_set', 'instru
 
 class PercussiveContext:
 
-    def __init__(self, sample_directory=os.path.join(os.path.dirname(os.path.realpath(__file__)), 'percussion'),
-                 maximum_sample_length=1.0):
-        self.sample_directory = sample_directory
+    def __init__(self, sample_directory=None, maximum_sample_length=1.0):
+        self.sample_directory = sample_directory or self.generate_sample_directory()
         self.maximum_sample_length = maximum_sample_length
         self.samples = self.retrieve_samples()
+
+    def generate_sample_directory(self):
+        if os.path.exists(os.path.join('~', 'percussion_samples')):
+            return os.path.join('~', 'percussion_samples')
+        try:
+            if os.path.exists(os.path.join(os.environ['USERPROFILE'], 'percussion_samples')):
+                return os.path.join(os.environ['USERPROFILE'], 'percussion_samples')
+        except KeyError:
+            pass
+        raise Exception('Invalid directory given for percussion samples')
 
     def retrieve_wav_files(self, directory):
         wav_files = list()
@@ -28,6 +37,8 @@ class PercussiveContext:
 
     def retrieve_samples(self):
         sample_files = self.retrieve_wav_files(self.sample_directory)
+        if not sample_files:
+            raise Exception('No percussion sample files found')
         samples = list()
         keys = list()
         for sample_file in sample_files:
