@@ -1,5 +1,5 @@
-from algorithm.music_elements.pitched_elements.abstract_chord import OctavedAbstractChord
-from algorithm.music_elements.pitched_elements.applied_scale import AppliedOctavedScale
+from algorithm.pitch.abstract_chord import OctavedAbstractChord
+from algorithm.pitch.applied_scale import AppliedOctavedScale
 
 
 class AppliedOctavedChord:
@@ -42,7 +42,7 @@ class AppliedOctavedChord:
                     target_index = self.applied_scale.chromatic_context.flat_chromatic_scale.index(self.chord_anchor)
                 note_name = self.applied_scale.chromatic_context.flat_note_names[target_index]
             note_name = ''.join(j for j in note_name if not j.isdigit())
-            self._symbol = self.render_symbol(note_name)
+            self._symbol = self.abstract_chord.render_symbol(note_name)
         return self._symbol
 
     def generate_chord(self):

@@ -1,7 +1,6 @@
 from math import ceil
 from random import choices, gauss, randint
-from algorithm.general_tools.option_probabilities import BAR_BEATS
-from algorithm.general_tools.tempo_ranges import NORMAL_MUSIC_TEMPO_RANGE
+from algorithm.tools import BAR_BEATS, NORMAL_MUSIC_TEMPO_RANGE
 
 
 class SongSkeleton:

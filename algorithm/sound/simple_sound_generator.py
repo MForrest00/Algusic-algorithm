@@ -11,8 +11,7 @@ class SimpleSoundGenerator:
         max_frequency_list_length = max([1] + [len(i) for sequence in sequences
                                                for i in sequence if isinstance(i, list)])
         sequences = deque([deque(sequence) for sequence in sequences])
-        sequence = sequences.pop()
-        sequences.appendleft(sequence.copy())
+        sequence = sequences[0]
         self.server.boot()
         amp = Fader(fadein=0.005, fadeout=0.05, mul=0.15)
         osc = RCOsc(freq=[100] * max_frequency_list_length, mul=amp).out()
@@ -26,8 +25,8 @@ class SimpleSoundGenerator:
             try:
                 next_freq = sequence.pop()
             except IndexError:
-                sequence = sequences.pop()
-                sequences.appendleft(sequence.copy())
+                sequences.rotate(1)
+                sequence = sequences[0]
                 next_freq = sequence.pop()
             osc.freq = next_freq
             amp.play()

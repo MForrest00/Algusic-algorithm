@@ -1,15 +1,15 @@
 from math import ceil
-from algorithm.music_elements.pitched_elements.abstract_scale import OctavedAbstractScale
-from algorithm.music_elements.pitched_elements.applied_chord import AppliedOctavedChord
-from algorithm.music_elements.pitched_elements.applied_scale import AppliedOctavedScale
-from algorithm.music_elements.pitched_elements.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
+from algorithm.pitch.abstract_scale import OctavedAbstractScale
+from algorithm.pitch.applied_chord import AppliedOctavedChord
+from algorithm.pitch.applied_scale import AppliedOctavedScale
+from algorithm.pitch.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
     UnequalTemperedTrueOctavedChromaticContext
-from algorithm.prepared_music_elements.pitched_elements.western_abstract_chord import MajorAbstractChord
-from algorithm.prepared_music_elements.pitched_elements.western_abstract_scale import MajorAbstractScale, \
+from algorithm.pitch.western.western_abstract_chord import MajorAbstractChord
+from algorithm.pitch.western.western_abstract_scale import MajorAbstractScale, \
     PhrygianAbstractScale
-from algorithm.prepared_music_elements.pitched_elements.western_chromatic_context \
+from algorithm.pitch.western.western_chromatic_context \
     import WesternEqualTempered440ChromaticContext, WesternJustTemperedA440ChromaticContext
-from algorithm.sound_generators.simple_sound_generator import simple_sound_generator
+from algorithm.sound.simple_sound_generator import simple_sound_generator
 
 
 def generate_sequence_from_scale(nested_scale, flat_scale, start_index=None, descent=True):

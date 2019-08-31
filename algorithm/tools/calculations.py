@@ -13,7 +13,8 @@ class VassilakisSRAModel:
     def dissonance(self):
         return self.calculated_roughness
 
-    def generate_roughness_value_from_pair(self, sinusoid_1, sinusoid_2):
+    @staticmethod
+    def generate_roughness_value_from_pair(sinusoid_1, sinusoid_2):
         sinusoid_1_frequency, sinusoid_1_amplitude = sinusoid_1
         sinusoid_2_frequency, sinusoid_2_amplitude = sinusoid_2
         frequency_min = min(sinusoid_1_frequency, sinusoid_2_frequency)

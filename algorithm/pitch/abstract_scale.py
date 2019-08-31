@@ -1,5 +1,5 @@
 from random import choices
-from algorithm.general_tools.option_probabilities import SCALE_DEGREES_INCREMENTS
+from algorithm.tools import SCALE_DEGREES_INCREMENTS
 
 
 class OctavedAbstractScale:

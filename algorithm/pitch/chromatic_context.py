@@ -1,7 +1,6 @@
 from random import choices, gauss, randint
 from string import ascii_uppercase
-from algorithm.general_tools.frequency_ranges import NORMAL_MUSIC_FREQUENCY_RANGE
-from algorithm.general_tools.option_probabilities import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
+from algorithm.tools import NORMAL_MUSIC_FREQUENCY_RANGE, OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class ChromaticContext:
@@ -22,7 +21,7 @@ class ChromaticContext:
     @anchor_hz.setter
     def anchor_hz(self, anchor_hz):
         if not self.minimum_hz <= anchor_hz <= self.maximum_hz:
-            return Exception('Anchor hz must be between minimum hz and maximum hz inclusive')
+            raise Exception('Anchor hz must be between minimum hz and maximum hz inclusive')
         self._anchor_hz = anchor_hz
 
     def generate_note_names(self):

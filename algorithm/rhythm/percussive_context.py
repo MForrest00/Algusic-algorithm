@@ -5,7 +5,7 @@ import numpy as np
 from scipy.io import wavfile
 
 
-Sample = namedtuple('Sample', ['mean_frequency', 'length', 'instrument_name', 'file_path'])
+Sample = namedtuple('Sample', ['mean_frequency', 'length', 'sample_set', 'instrument_name', 'file_path'])
 
 
 class PercussiveContext:
@@ -39,8 +39,9 @@ class PercussiveContext:
             frequency = np.fft.rfftfreq(len(data), d=1/bitrate)
             amplitude = spectrum / spectrum.sum()
             mean_frequency = (frequency * amplitude).sum()
+            sample_set = sample_file.split(os.sep)[-3]
             instrument_name = sample_file.split(os.sep)[-2]
             index = bisect_left(keys, mean_frequency)
             keys.insert(index, mean_frequency)
-            samples.insert(index, Sample(mean_frequency, length, instrument_name, sample_file))
+            samples.insert(index, Sample(mean_frequency, length, sample_set, instrument_name, sample_file))
         return samples

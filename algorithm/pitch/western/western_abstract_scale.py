@@ -1,4 +1,22 @@
-from algorithm.music_elements.pitched_elements.abstract_scale import OctavedAbstractScale
+from algorithm.pitch.abstract_scale import OctavedAbstractScale
+
+
+__all__ = ['MajorAbstractScale', 'MelodicMinorAbstractScale', 'HarmonicMinorAbstractScale', 'NaturalMinorAbstractScale',
+           'DorianAbstractScale', 'PhrygianAbstractScale', 'LydianAbstractScale', 'MixolydianAbstractScale',
+           'LocrianAbstractScale', 'BluesAbstractScale', 'DiminishedHalftoneWholetoneAbstractScale',
+           'DiminishedWholetoneHalftoneAbstractScale', 'WholeToneAbstractScale', 'MajorPentatonicAbstractScale',
+           'MinorPentatonicAbstractScale', 'AugmentedAbstractScale', 'LeadingWholeToneAbstractScale',
+           'DoubleHarmonicAbstractScale', 'OvertoneAbstractScale', 'SixToneSymmetricalAbstractScale',
+           'AlteredAbstractScale', 'AlteredDoubleFlat7AbstractScale', 'EngimaticAbstractScale',
+           'DorianFlat2AbstractScale', 'AugmentedLydianAbstractScale', 'MixolydianFlatSixAbstractScale',
+           'Locrian2AbstractScale', 'Locrian6AbstractScale', 'AugmentedIonianAbstractScale',
+           'DorianSharp4AbstractScale', 'MajorPhrygianAbstractScale', 'LydianSharp9AbstractScale',
+           'DiminishedLydianAbstractScale', 'MinorLydianAbstractScale', 'ArabianAbstractScale', 'BalineseAbstractScale',
+           'ChineseAbstractScale', 'EgyptianAbstractScale', 'EightToneSpanishAbstractScale', 'HirajoshiAbstractScale',
+           'HungarianMajorAbstractScale', 'HungarianMinorAbstractScale', 'IchikosuchoAbstractScale',
+           'KumoiAbstractScale', 'NeopolitanAbstractScale', 'NeopolitanMajorAbstractScale', 'PelogAbstractScale',
+           'PersianAbstractScale', 'PrometheusAbstractScale', 'PrometheusNeopolitanAbstractScale',
+           'PurviThetaAbstractScale', 'TodiThetaAbstractScale']
 
 
 class WesternOctavedAbstractScale(OctavedAbstractScale):

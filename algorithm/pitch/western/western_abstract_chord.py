@@ -1,4 +1,17 @@
-from algorithm.music_elements.pitched_elements.abstract_chord import OctavedAbstractChord
+from algorithm.pitch.abstract_chord import OctavedAbstractChord
+
+
+__all__ = ['MajorAbstractChord', 'MinorAbstractChord', 'SixthAbstractChord', 'MinorSixthAbstractChord',
+           'SixthNinthAbstractChord', 'MajorSeventhAbstractChord', 'DominantSeventhAbstractChord',
+           'SeventhFlatFifthAbstractChord', 'SeventhSharpFifthAbstractChord', 'MinorSeventhAbstractChord',
+           'MinorMajorSeventhAbstractChord', 'MinorSeventhFlatFifthAbstractChord', 'DiminishedSeventhAbstractChord',
+           'NinthAbstractChord', 'NinthFlatFifthAbstractChord', 'NinthSharpFifthAbstractChord',
+           'MajorNinthAbstractChord', 'MinorNinthAbstractChord', 'MinorEleventhAbstractChord',
+           'ThirteenthAbstractChord', 'MajorThirteenthAbstractChord', 'MinorThirteenthAbstractChord',
+           'SuspendedFourthAbstractChord', 'SuspendedSecondAbstractChord',
+           'DominantSeventhSuspendedFourthAbstractChord', 'DominantSeventhSuspendedSecondAbstractChord',
+           'NinthSuspendedFourthAbstractChord', 'NinthSuspendedSecondAbstractChord', 'AugmentedAbstractChord',
+           'DiminishedAbstractChord', 'PowerChordAbstractChord']
 
 
 class WesternOctavedAbstractChord(OctavedAbstractChord):

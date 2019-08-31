@@ -1,5 +1,12 @@
-from algorithm.music_elements.pitched_elements.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
+from algorithm.pitch.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
     TrueOctavedChromaticContext, UnequalTemperedTrueOctavedChromaticContext
+
+
+__all__ = ['WesternEqualTempered432ChromaticContext', 'WesternEqualTempered434ChromaticContext',
+           'WesternEqualTempered436ChromaticContext', 'WesternEqualTempered438ChromaticContext',
+           'WesternEqualTempered440ChromaticContext', 'WesternEqualTempered442ChromaticContext',
+           'WesternEqualTempered444ChromaticContext', 'WesternEqualTempered446ChromaticContext',
+           'WesternJustTemperedA440ChromaticContext']
 
 
 class WesternChromaticContext(TrueOctavedChromaticContext):
