@@ -20,6 +20,7 @@ class TestSectionedSongSkeleton(unittest.TestCase):
     def test_generate_sectioned_song_skeleton(self):
         for s in range(100):
             random.seed(s)
-            sectioned_song_skeleton = SectionedSongSkeleton()
+            sectioned_song_skeleton = SectionedSongSkeleton(minimum_section_length=None)
             self.assertGreaterEqual(sectioned_song_skeleton.section_count, sectioned_song_skeleton.MINIMUM_SECTIONS)
             self.assertLessEqual(sectioned_song_skeleton.section_count, sectioned_song_skeleton.MAXIMUM_SECTIONS)
+            self.assertEqual(len(sectioned_song_skeleton.bars), sum(sectioned_song_skeleton.sectioned_bar_lengths))

@@ -8,7 +8,8 @@ class AppliedOctavedScale:
         self.chromatic_context = chromatic_context
         self.abstract_scale = abstract_scale
         self.scale_anchor = scale_anchor or self.chromatic_context.anchor_hz
-        self.flat_tonic_indexes, self.scale_note = self.generate_flat_tonic_indexes()
+        self.scale_note = self.retrieve_scale_note()
+        self.flat_tonic_indexes = self.generate_flat_tonic_indexes()
         self.named_scale, self.altered_named_scale = self.generate_named_scale()
 
     @property
@@ -99,9 +100,9 @@ class AppliedOctavedScale:
                                              for note in single_octave_scale]
         return self._flat_altered_note_names
 
-    def generate_flat_tonic_indexes(self):
+    def retrieve_scale_note(self):
         if isinstance(self.scale_anchor, str) and not any(j for j in self.scale_anchor if j.isdigit()):
-            target_note = self.scale_anchor
+            scale_note = self.scale_anchor
         else:
             if isinstance(self.scale_anchor, int):
                 target_index = self.scale_anchor
@@ -109,15 +110,17 @@ class AppliedOctavedScale:
                 target_index = self.chromatic_context.flat_chromatic_scale.index(self.scale_anchor)
             else:
                 target_index = self.chromatic_context.flat_note_names.index(self.scale_anchor)
-            target_note = ''.join(i for i in self.chromatic_context.flat_note_names[target_index]
-                                  if not i.isdigit())
+            scale_note = ''.join(i for i in self.chromatic_context.flat_note_names[target_index] if not i.isdigit())
+        return scale_note
+
+    def generate_flat_tonic_indexes(self):
         tonic_indexes = [i for i, note_name in enumerate(self.chromatic_context.flat_note_names)
-                         if ''.join(j for j in note_name if not j.isdigit()) == target_note]
+                         if ''.join(j for j in note_name if not j.isdigit()) == self.scale_note]
         if not tonic_indexes:
             raise ValueError('Scale anchor must be present in the chromatic context')
         if tonic_indexes[0] != 0:
             tonic_indexes.insert(0, tonic_indexes[0] - self.chromatic_context.single_octave_note_count)
-        return tonic_indexes, target_note
+        return tonic_indexes
 
     def generate_named_scale(self):
         scale_octaves = list()
