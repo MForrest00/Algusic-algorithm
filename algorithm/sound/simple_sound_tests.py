@@ -1,14 +1,8 @@
 from math import ceil
-from algorithm.pitch.abstract_scale import OctavedAbstractScale
-from algorithm.pitch.applied_chord import AppliedOctavedChord
-from algorithm.pitch.applied_scale import AppliedOctavedScale
-from algorithm.pitch.chromatic_context import EqualTemperedTrueOctavedChromaticContext, \
-    UnequalTemperedTrueOctavedChromaticContext
-from algorithm.pitch.western.western_abstract_chord import MajorAbstractChord
-from algorithm.pitch.western.western_abstract_scale import MajorAbstractScale, \
-    PhrygianAbstractScale
-from algorithm.pitch.western.western_chromatic_context \
-    import WesternEqualTempered440ChromaticContext, WesternJustTemperedA440ChromaticContext
+from algorithm.pitch import AppliedOctavedChord, AppliedOctavedScale, EqualTemperedTrueOctavedChromaticContext, \
+    OctavedAbstractScale, UnequalTemperedTrueOctavedChromaticContext
+from algorithm.pitch.western import MajorAbstractChord, MajorAbstractScale, PhrygianAbstractScale, \
+    WesternEqualTempered440ChromaticContext, WesternJustTemperedA440ChromaticContext
 from algorithm.sound.simple_sound_generator import simple_sound_generator
 
 
@@ -47,6 +41,8 @@ def test_3():
     scale = EqualTemperedTrueOctavedChromaticContext()
     sequence = generate_sequence_from_scale(scale.chromatic_scale, scale.flat_chromatic_scale)
     print('Playing random equal tempered true octaved chromatic scale')
+    print('Single octave note count:', scale.single_octave_note_count)
+    print('Octave range:', scale.octave_range)
     print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
@@ -55,6 +51,8 @@ def test_4():
     scale = UnequalTemperedTrueOctavedChromaticContext()
     sequence = generate_sequence_from_scale(scale.chromatic_scale, scale.flat_chromatic_scale)
     print('Playing random unequal tempered true octaved chromatic scale')
+    print('Single octave note count:', scale.single_octave_note_count)
+    print('Octave range:', scale.octave_range)
     print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
@@ -89,6 +87,9 @@ def test_7():
                                                       scale.chromatic_context.flat_chromatic_scale)
     sequence = generate_sequence_from_scale(scale.scale, scale.flat_scale)
     print('Playing random scale with random equal tempered true octaved chromatic context scale')
+    print('Chromatic single octave note count:', chromatic_context.single_octave_note_count)
+    print('Chromatic octave range:', chromatic_context.octave_range)
+    print('Scale single octave note count:', len(scale.abstract_scale.scale_degrees) + 1)
     print('Chromatic sequence:', chromatic_sequence[:ceil(len(chromatic_sequence) / 2)])
     print('Scale sequence:', sequence[:ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence, chromatic_sequence)
