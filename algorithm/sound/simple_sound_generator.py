@@ -1,5 +1,5 @@
 from collections import deque
-from pyo import Fader, Pattern, RCOsc, Server
+from pyo import Fader, Pattern, RCOsc, Server, SfPlayer
 
 
 class SimpleSoundGenerator:
@@ -32,6 +32,31 @@ class SimpleSoundGenerator:
             amp.play()
 
         pat = Pattern(function=get_next_note, time=0.5).play()
+        # self.server.gui(locals())
+        self.server.start()
+        input('Press enter to stop playback')
+        self.server.stop()
+        self.server.shutdown()
+
+    def play_sample_sequence(self, sequence):
+        sample_sequence = sequence.copy()
+        self.server.boot()
+        sample = sample_sequence.pop()
+        sf = SfPlayer(sample.file_path, mul=.3).out()
+
+        def get_next_sample():
+            nonlocal sequence
+            nonlocal sample_sequence
+            nonlocal sf
+            try:
+                sample = sample_sequence.pop()
+            except IndexError:
+                sample_sequence = sequence.copy()
+                sample = sample_sequence.pop()
+            sf = SfPlayer(sample.file_path, mul=.3).out()
+            pat.time = sample.length + 0.5
+
+        pat = Pattern(function=get_next_sample, time=sample.length + 0.5).play()
         # self.server.gui(locals())
         self.server.start()
         input('Press enter to stop playback')
