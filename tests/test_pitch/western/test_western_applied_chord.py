@@ -1,7 +1,5 @@
 import unittest
-from algorithm.pitch.western import western_abstract_chord
-from algorithm.pitch.western import western_abstract_scale
-from algorithm.pitch.western import western_chromatic_context
+from algorithm.pitch.western import western_abstract_chord, western_abstract_scale, western_chromatic_context
 from algorithm.pitch.western.western_applied_chord import WesternAppliedChord
 from algorithm.pitch.western.western_applied_scale import WesternAppliedScale
 

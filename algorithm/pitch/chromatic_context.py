@@ -144,10 +144,8 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
             possible_ratio = pow(self.standard_note_ratio, (index + 1)) + \
                 gauss(0, following_ratio_diff *
                       UnequalTemperedTrueOctavedChromaticContext.NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE)
-            if possible_ratio <= pow(self.standard_note_ratio, index) or \
-                    possible_ratio >= pow(self.standard_note_ratio, index + 2):
-                continue
-            return possible_ratio
+            if pow(self.standard_note_ratio, index) < possible_ratio < pow(self.standard_note_ratio, index + 2):
+                return possible_ratio
         return pow(self.standard_note_ratio, (index + 1))
 
     def generate_note_ratios(self):

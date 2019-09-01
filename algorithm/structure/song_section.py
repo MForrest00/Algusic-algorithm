@@ -25,7 +25,6 @@ class SongSection:
         max_iterations = 5
         for _ in range(max_iterations):
             possible_factor = gauss(1.0, SongSection.FACTOR_STANDARD_DEVIATION)
-            if possible_factor <= 0:
-                continue
-            return possible_factor
+            if possible_factor > 0:
+                return possible_factor
         return 1.0

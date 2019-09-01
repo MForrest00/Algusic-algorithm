@@ -13,7 +13,7 @@ class WesternChromaticContext(TrueOctavedChromaticContext):
     NOTE_NAMES = ['A', 'A♯/B♭', 'B', 'C', 'C♯/D♭', 'D', 'D♯/E♭', 'E', 'F', 'F♯/G♭', 'G', 'G♯/A♭']
 
     def __init__(self, **kwargs):
-        super().__init__(octave_range=1, **kwargs)
+        super().__init__(single_octave_note_count=12, octave_range=1, **kwargs)
 
     @property
     def anchor_note_name(self):
@@ -59,8 +59,7 @@ class WesternChromaticContext(TrueOctavedChromaticContext):
 class WesternEqualTemperedChromaticContext(EqualTemperedTrueOctavedChromaticContext, WesternChromaticContext):
 
     def __init__(self, minimum_hz=16.3515, maximum_hz=7902.1329, anchor_hz=440.0):
-        super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz,
-                         single_octave_note_count=12)
+        super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz)
 
     def __str__(self):
         return f'Classic western equal tempered chromatic context, with {self.anchor_note_name}4 on {self.anchor_hz} hz'
@@ -71,7 +70,6 @@ class WesternJustTemperedChromaticContext(UnequalTemperedTrueOctavedChromaticCon
 
     def __init__(self, minimum_hz=16.4999, maximum_hz=7920.0001, anchor_hz=440.0, anchor_note_name='A'):
         super().__init__(minimum_hz=minimum_hz, maximum_hz=maximum_hz, anchor_hz=anchor_hz,
-                         single_octave_note_count=len(WesternJustTemperedChromaticContext.NOTE_RATIOS) + 1,
                          note_ratios=WesternJustTemperedChromaticContext.NOTE_RATIOS)
         self.anchor_note_name = anchor_note_name
 
