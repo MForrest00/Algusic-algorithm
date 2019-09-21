@@ -4,6 +4,19 @@ from algorithm.tools import BAR_BEATS, NORMAL_MUSIC_TEMPO_RANGE
 
 
 class SongSkeleton:
+    """Basic skeleton of a song, with tempo and bars
+
+    Arguments:
+        minimum tempo (float or int): Minimum target tempo in beats per minute when generating tempo
+        maximum_tempo (float or int): Maximum target tempo in beats per minute when generating tempo
+        tempo (int or None): Tempo in beats per minute of the song
+        bar_beats (int or None): Number of beats in a bar
+        song_length (float or int or None): Number of seconds the song lasts
+        bar_count_modulus (int or None): Number by which the number of bars in the song must be divisible by
+
+    Attributes:
+        bars (list): List of bars with beat count
+    """
     TEMPO_STANDARD_DEVIATION_PERCENTAGE = 0.5
     SONG_LENGTH_MEAN = 4 * 60
     SONG_LENGTH_STANDARD_DEVIATION = 60
@@ -49,15 +62,35 @@ class SongSkeleton:
         return SongSkeleton.SONG_LENGTH_MEAN
 
     def beats_to_seconds(self, beats):
+        """Retrieve length in seconds of a number of beats
+
+        Arguments:
+            beats (float or int): Number of beats to retrieve length in seconds for
+        """
         return beats / (self.tempo / 60)
 
     def bars_to_seconds(self, bars):
+        """Retrieve length in seconds of a number of bars
+
+        Arguments:
+            bars (float or int): Number of bars to retrieve length in seconds for
+        """
         return self.beats_to_seconds(bars * self.bar_beats)
 
     def seconds_to_beats(self, seconds):
+        """Retrieve number of beats which fit in a number of seconds
+
+        Arguments:
+            seconds (int or float): Number of seconds to convert to a number of beats
+        """
         return seconds * (self.tempo / 60)
 
     def seconds_to_bars(self, seconds):
+        """Retrieve number of bars which fit in a number of seconds
+
+        Arguments:
+            seconds (int or float): Number of seconds to convert to a number of bars
+        """
         return self.seconds_to_beats(seconds) / self.bar_beats
 
     def generate_bars(self):
@@ -71,6 +104,20 @@ class SongSkeleton:
 
 
 class SectionedSongSkeleton(SongSkeleton):
+    """Basic song skeleton divided into sections
+
+    Arguments:
+        minimum_sections (int or None): Minimum number of sections when generating section count
+        maximum_sections (int or None): Maximum number of sections when generating section count
+        maximum_section_length (float or int or None): Maximum length of a section in seconds when generating section
+                                                       count
+        minimum_section_length (float or int or None): Minimum length of a section in seconds when generating section
+                                                       count
+        section_count (int or None): Number of sections in the song
+
+    Attributes:
+        sectioned_bar_lengths (list): List of bar counts for each section
+    """
     MINIMUM_SECTIONS = 1
     MAXIMUM_SECTIONS = 20
     MINIMUM_SECTION_LENGTH = 10
@@ -135,13 +182,16 @@ class SectionedSongSkeleton(SongSkeleton):
         self._minimum_section_length = minimum_section_length
 
     @property
-    def minimum_beats(self):
-        return ceil(self.seconds_to_beats(self.minimum_section_length)) if self.minimum_section_length and \
-               ceil(self.seconds_to_bars(self.minimum_section_length)) * self.section_count <= len(self.bars) else None
-
     def maximum_beats(self):
+        """Maximum number of beats in a section as determined by maximum section length"""
         return floor(self.seconds_to_beats(self.maximum_section_length)) if self.maximum_section_length and \
                floor(self.seconds_to_bars(self.maximum_section_length)) * self.section_count >= len(self.bars) else None
+
+    @property
+    def minimum_beats(self):
+        """Minimum number of beats in a section as determined by minimum section length"""
+        return ceil(self.seconds_to_beats(self.minimum_section_length)) if self.minimum_section_length and \
+               ceil(self.seconds_to_bars(self.minimum_section_length)) * self.section_count <= len(self.bars) else None
 
     def generate_section_count(self):
         minimum_sections = 1
@@ -164,11 +214,18 @@ class SectionedSongSkeleton(SongSkeleton):
 
     def generate_sectioned_bar_lengths(self):
         average_bar_length = len(self.bars) / self.section_count
+        high_bar_length = ceil(average_bar_length)
+        if self.bar_count_modulus and high_bar_length % self.bar_count_modulus != 0:
+            high_bar_length += self.bar_count_modulus - (ceil(average_bar_length) % self.bar_count_modulus)
+        low_bar_length = floor(average_bar_length)
+        if self.bar_count_modulus and low_bar_length % self.bar_count_modulus != 0:
+            low_bar_length -= floor(average_bar_length) % self.bar_count_modulus
         sectioned_bar_lengths = []
-        for i in range(self.section_count):
-            if (self.section_count - i) * ceil(average_bar_length) > len(self.bars) - sum(sectioned_bar_lengths):
-                sectioned_bar_lengths.append(floor(average_bar_length))
+        for i in range(self.section_count - 1):
+            if (self.section_count - i) * high_bar_length > len(self.bars) - sum(sectioned_bar_lengths):
+                sectioned_bar_lengths.append(low_bar_length)
             else:
-                sectioned_bar_lengths.append(ceil(average_bar_length))
+                sectioned_bar_lengths.append(high_bar_length)
+        sectioned_bar_lengths.append(len(self.bars) - sum(sectioned_bar_lengths))
         shuffle(sectioned_bar_lengths)
         return sectioned_bar_lengths
