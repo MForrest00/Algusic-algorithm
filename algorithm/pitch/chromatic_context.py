@@ -1,6 +1,7 @@
 from random import choices, gauss, randint
 from string import ascii_uppercase
-from algorithm.tools import NORMAL_MUSIC_FREQUENCY_RANGE, OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
+from algorithm.data import NORMAL_MUSIC_FREQUENCY_RANGE
+from algorithm.tools import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class ChromaticContext:

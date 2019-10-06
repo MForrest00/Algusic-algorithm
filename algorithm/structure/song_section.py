@@ -1,30 +1,63 @@
-from random import gauss
+from algorithm.tools import FactorGenerator
 
 
 class SongSection:
-    FACTOR_STANDARD_DEVIATION = 0.15
 
-    def __init__(self, line_repetition_factor=None, section_repetition_factor=None,
-                 density_factor=None, volume_intensity_factor=None, layering_factor=None):
-        """Instantiate a song section.
+    def __init__(self, **kwargs):
+        """Section of a song
 
-        Keyword arguments:
-        line_repetition_factor -- influences likelihood to repeat earlier lines from the same section
-        section_repetition_factor -- influences likelihood to repeat lines from an earlier section of the same type
-        density_factor -- influences likelihood to add more elements to the section
-        volume_intensity_factor -- influences volumes generated in the section
-        layering_factor -- influences likelihood to layer lines throughout the section
+        Possible arguments:
+            pitched_density_adjustment_factor (float or int or None): influences likelihood to add more pitched elements
+                to the section
+            pitched_density_adjustment_probability (float or int or None): base probability of pitched density
+                adjustment factor
+            pitched_density_adjustment_standard_deviation (float or int or None): base standard deviation of pitched
+                density adjustment factor
+            rhythmic_density_adjustment_factor (float or int or None): influences likelihood to add more rhythmic
+                elements to the section
+            rhythmic_density_adjustment_probability (float or int or None): base probability of rhythmic density
+                adjustment factor
+            rhythmic_density_adjustment_standard_deviation (float or int or None): base standard deviation of rhythmic
+                density adjustment factor
+            line_repetition_factor (float or int or None): influences likelihood to repeat earlier lines from the same
+                section
+            line_repetition_probability (float or int or None): base probability of line repetition factor
+            line_repetition_standard_deviation (float or int or None): base standard deviation of line repetition factor
+            section_repetition_factor (float or int or None): influences likelihood to repeat lines from an earlier
+                section of the same type
+            section_repetition_probability (float or int or None): base probability of section repetition factor
+            section_repetition_standard_deviation (float or int or None): base standard deviation of section repetition
+                factor
+            volume_adjustment_factor (float or int or None): influences volumes generated in the section
+            volume_adjustment_probability (float or int or None): base probability of volume adjustment factor
+            volume_adjustment_standard_deviation (float or int or None): base standard deviation of volume adjustment
+                factor
+            layering_factor (float or int or None): influences likelihood to layer lines throughout the section
+            layering_probability (float or int or None): base probability of layering factor
+            layering_standard_deviation (float or int or None): base standard deviation of layering factor
         """
-        self.line_repetition_factor = line_repetition_factor or self.generate_random_factor()
-        self.section_repetition_factor = section_repetition_factor or self.generate_random_factor()
-        self.density_factor = density_factor or self.generate_random_factor()
-        self.volume_intensity_factor = volume_intensity_factor or self.generate_random_factor()
-        self.layering_factor = layering_factor or self.generate_random_factor()
-
-    def generate_random_factor(self):
-        max_iterations = 5
-        for _ in range(max_iterations):
-            possible_factor = gauss(1.0, SongSection.FACTOR_STANDARD_DEVIATION)
-            if possible_factor > 0:
-                return possible_factor
-        return 1.0
+        self.fg = FactorGenerator()
+        self.pitched_density_adjustment_factor = \
+            self.fg.generate_factor(factor=kwargs.get('pitched_density_adjustment_factor'),
+                                    probability=kwargs.get('pitched_density_adjustment_probability'),
+                                    standard_deviation=kwargs.get('pitched_density_adjustment_standard_deviation'))
+        self.rhythmic_density_adjustment_factor = \
+            self.fg.generate_factor(factor=kwargs.get('rhythmic_density_adjustment_factor'),
+                                    probability=kwargs.get('rhythmic_density_adjustment_probability'),
+                                    standard_deviation=kwargs.get('rhythmic_density_adjustment_standard_deviation'))
+        self.line_repetition_factor = \
+            self.fg.generate_factor(factor=kwargs.get('line_repetition_factor'),
+                                    probability=kwargs.get('line_repetition_probability'),
+                                    standard_deviation=kwargs.get('line_repetition_standard_deviation'))
+        self.section_repetition_factor = \
+            self.fg.generate_factor(factor=kwargs.get('section_repetition_factor'),
+                                    probability=kwargs.get('section_repetition_probability'),
+                                    standard_deviation=kwargs.get('section_repetition_standard_deviation'))
+        self.volume_adjustment_factor = \
+            self.fg.generate_factor(factor=kwargs.get('volume_adjustment_factor'),
+                                    probability=kwargs.get('volume_adjustment_probability'),
+                                    standard_deviation=kwargs.get('volume_adjustment_standard_deviation'))
+        self.layering_factor = \
+            self.fg.generate_factor(factor=kwargs.get('layering_factor'),
+                                    probability=kwargs.get('layering_probability'),
+                                    standard_deviation=kwargs.get('layering_standard_deviation'))

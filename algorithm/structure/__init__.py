@@ -1,1 +1,3 @@
+from algorithm.structure.applied_sectioned_song import AppliedSectionedSong
+from algorithm.structure.song_section import SongSection
 from algorithm.structure.song_skeleton import SongSkeleton, SectionedSongSkeleton

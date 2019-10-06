@@ -2,7 +2,9 @@ from algorithm.structure.song_section import SongSection
 
 
 class WesternSongSection(SongSection):
-    pass
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
 
 
 IntroSongSection = WesternSongSection()

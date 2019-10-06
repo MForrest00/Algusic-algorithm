@@ -1,6 +1,7 @@
 from math import ceil, floor
 from random import choices, gauss, randint, shuffle
-from algorithm.tools import BAR_BEATS, NORMAL_MUSIC_TEMPO_RANGE
+from algorithm.data import NORMAL_MUSIC_TEMPO_RANGE
+from algorithm.tools import BAR_BEATS
 
 
 class SongSkeleton:
@@ -81,7 +82,7 @@ class SongSkeleton:
         """Retrieve number of beats which fit in a number of seconds
 
         Arguments:
-            seconds (int or float): Number of seconds to convert to a number of beats
+            seconds (float or int): Number of seconds to convert to a number of beats
         """
         return seconds * (self.tempo / 60)
 
@@ -89,7 +90,7 @@ class SongSkeleton:
         """Retrieve number of bars which fit in a number of seconds
 
         Arguments:
-            seconds (int or float): Number of seconds to convert to a number of bars
+            seconds (float or int): Number of seconds to convert to a number of bars
         """
         return self.seconds_to_beats(seconds) / self.bar_beats
 
@@ -110,9 +111,9 @@ class SectionedSongSkeleton(SongSkeleton):
         minimum_sections (int or None): Minimum number of sections when generating section count
         maximum_sections (int or None): Maximum number of sections when generating section count
         maximum_section_length (float or int or None): Maximum length of a section in seconds when generating section
-                                                       count
+            count
         minimum_section_length (float or int or None): Minimum length of a section in seconds when generating section
-                                                       count
+            count
         section_count (int or None): Number of sections in the song
 
     Attributes:
