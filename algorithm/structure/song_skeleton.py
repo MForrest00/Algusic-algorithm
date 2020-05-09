@@ -163,8 +163,7 @@ class SectionedSongSkeleton(SongSkeleton):
     @maximum_section_length.setter
     def maximum_section_length(self, maximum_section_length):
         if maximum_section_length is not None and \
-                ((not isinstance(maximum_section_length, int) and not isinstance(maximum_section_length, float))
-                 or maximum_section_length <= 0):
+                (not isinstance(maximum_section_length, (int, float)) or maximum_section_length <= 0):
             raise TypeError('Maximum section length must be None or an integer or float greater than 0')
         self._maximum_section_length = maximum_section_length
 
@@ -175,8 +174,7 @@ class SectionedSongSkeleton(SongSkeleton):
     @minimum_section_length.setter
     def minimum_section_length(self, minimum_section_length):
         if minimum_section_length is not None:
-            if (not isinstance(minimum_section_length, int) and not isinstance(minimum_section_length, float)) \
-                    or minimum_section_length <= 0:
+            if not isinstance(minimum_section_length, (int, float)) or minimum_section_length <= 0:
                 raise TypeError('Minimum section length must be None or an integer or float greater than 0')
             if self.maximum_section_length is not None and minimum_section_length > self.maximum_section_length:
                 raise ValueError('Minimum section length must be less than or equal to the maximum section length')

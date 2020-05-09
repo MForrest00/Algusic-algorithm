@@ -25,8 +25,8 @@ class Sinusoid:
             TypeError: if argument is not an int or a float
             ValueError: if argument is not greater than 0
         """
-        if not isinstance(argument, int) and not isinstance(argument, float):
-            raise TypeError('Frequency and amplitude values must be an integers or floats')
+        if not isinstance(argument, (int, float)):
+            raise TypeError('Frequency and amplitude values must be integers or floats')
         if argument <= 0:
             raise ValueError('Frequency and amplitude values must be greater than 0')
 
@@ -67,12 +67,12 @@ class Sinusoid:
         return None
 
     def __mul__(self, other):
-        if (not isinstance(other, int) and not isinstance(other, float)) or other <= 0:
+        if not isinstance(other, (int, float)) or other <= 0:
             raise ValueError('Sinusoids can only be multiplied by an integer or a float greater than 0')
         return self.__class__(self.frequency, self.amplitude * other)
 
     def __truediv__(self, other):
-        if (not isinstance(other, int) and not isinstance(other, float)) or other <= 0:
+        if not isinstance(other, (int, float)) or other <= 0:
             raise ValueError('Sinusoids can only be divided by an integer or a float greater than 0')
         return self.__class__(self.frequency, self.amplitude / other)
 

@@ -15,7 +15,7 @@ def generate_sequence_from_scale(nested_scale, flat_scale, start_index=None, des
         scale = flat_scale[start_index:end_index]
     else:
         scales_range = len(nested_scale)
-        scale = nested_scale[scales_range // 2]
+        scale = nested_scale[scales_range // 2][:]
         if scales_range > 1:
             scale += nested_scale[scales_range // 2 + 1][:1]
     if descent:
