@@ -229,10 +229,10 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
 
 
 class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
-    """True octaved chromatic context, where notes are set as ratios to the previous note
+    """True octaved chromatic context, where notes are set as ratios to the anchor note
 
     Arguments:
-        note_ratios (list): floats representing the ratios between notes in the chromatic scale
+        note_ratios (list): floats representing the ratios between notes and the anchor in the chromatic scale
     """
     NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE = 0.25
 
@@ -243,26 +243,59 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
         self.note_names = self.generate_note_names()
 
     @property
+    def note_ratios(self):
+        return self._note_ratios
+
+    @note_ratios.setter
+    def note_ratios(self, note_ratios):
+        if not isinstance(note_ratios, list) or any(not isinstance(r, (int, float)) for r in note_ratios):
+            raise TypeError('Note ratios must be a list of integers or floats')
+        if len(note_ratios) != self.single_octave_note_count - 1:
+            raise ValueError('Length of note ratios must be equal to the single octave note count minus 1')
+        if len(note_ratios) > 0 and any(not 1 < r < pow(2, self.octave_range) for r in note_ratios):
+            raise ValueError(
+                'Note ratios must be between 1 and 2 raised to the power of the octave range, non-inclusive'
+            )
+        self._note_ratios = sorted(note_ratios)
+
+    @property
     def standard_note_ratio(self):
-        """The average ratio between notes in an equal tempered scale"""
+        """Standard ratio between notes in an equal tempered scale"""
         return pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
-    def generate_next_ratio(self, index):
+    def generate_ratio_by_index(self, index):
+        """Randomly generate note ratio by index using standard note ratio and standard deviation percentage
+
+        Arguments:
+            index (int): note index in the chromatic scale to generate the ratio for
+
+        Returns:
+            float: note ratio
+        """
         max_iterations = 5
-        following_ratio_diff = pow(self.standard_note_ratio, index + 2) - pow(self.standard_note_ratio, (index + 1))
+        following_ratio_diff = pow(self.standard_note_ratio, index + 1) - pow(self.standard_note_ratio, (index))
         for _ in range(max_iterations):
-            possible_ratio = pow(self.standard_note_ratio, (index + 1)) + \
+            possible_ratio = pow(self.standard_note_ratio, (index)) + \
                 gauss(0, following_ratio_diff *
                       UnequalTemperedTrueOctavedChromaticContext.NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE)
-            if pow(self.standard_note_ratio, index) < possible_ratio < pow(self.standard_note_ratio, index + 2):
+            if pow(self.standard_note_ratio, index - 1) < possible_ratio < pow(self.standard_note_ratio, index + 1):
                 return possible_ratio
-        return pow(self.standard_note_ratio, (index + 1))
+        return pow(self.standard_note_ratio, (index))
 
     def generate_note_ratios(self):
-        note_ratios = [self.generate_next_ratio(i) for i in range(self.single_octave_note_count - 1)]
+        """Randomly generate intern-note ratios for chromatic scale"""
+        note_ratios = [self.generate_ratio_by_index(i) for i in range(1, self.single_octave_note_count)]
         return note_ratios
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note):
+        """Generate a single octave chromatic scale from the first note in the scale
+
+        Arguments:
+            anchor_note (int or float): frequency of the first note in the scale
+
+        Returns:
+            list: floats representing each note in the scale, with None representing the absence of a Note
+        """
         if anchor_note >= self.minimum_hz:
             scale = [anchor_note]
         else:
