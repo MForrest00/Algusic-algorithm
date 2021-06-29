@@ -1,5 +1,7 @@
+from math import ceil, floor
 from random import choices, gauss, randint
 from string import ascii_uppercase
+from typing import Any, List, Optional, Tuple, Union
 from algorithm.data import NORMAL_MUSIC_FREQUENCY_RANGE
 from algorithm.tools import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
 
@@ -14,16 +16,20 @@ class ChromaticContext:
     """
     NOTE_NAMES = list(ascii_uppercase)
 
-    def __init__(self, minimum_hz=NORMAL_MUSIC_FREQUENCY_RANGE.lower_hz,
-                 maximum_hz=NORMAL_MUSIC_FREQUENCY_RANGE.upper_hz - 1, anchor_hz=None):
+    def __init__(
+        self,
+        minimum_hz: Union[int, float] = NORMAL_MUSIC_FREQUENCY_RANGE.lower_hz,
+        maximum_hz: Union[int, float] = NORMAL_MUSIC_FREQUENCY_RANGE.upper_hz - 1,
+        anchor_hz: Optional[Union[int, float]] = None,
+    ):
         self.minimum_hz = minimum_hz
         self.maximum_hz = maximum_hz
-        self.anchor_hz = anchor_hz or float(randint(self.minimum_hz, self.maximum_hz))
-        self.chromatic_scale = list()
-        self.note_names = list()
+        self.anchor_hz = anchor_hz or self.create_anchor_hz()
+        self.chromatic_scale: List[List[Optional[float]]] = list()
+        self.note_names: List[List[Optional[str]]] = list()
 
     @property
-    def minimum_hz(self):
+    def minimum_hz(self) -> float:
         return self._minimum_hz
 
     @minimum_hz.setter
@@ -35,7 +41,7 @@ class ChromaticContext:
         self._minimum_hz = float(minimum_hz)
 
     @property
-    def maximum_hz(self):
+    def maximum_hz(self) -> float:
         return self._maximum_hz
 
     @maximum_hz.setter
@@ -47,7 +53,7 @@ class ChromaticContext:
         self._maximum_hz = float(maximum_hz)
 
     @property
-    def anchor_hz(self):
+    def anchor_hz(self) -> float:
         return self._anchor_hz
 
     @anchor_hz.setter
@@ -58,15 +64,22 @@ class ChromaticContext:
             raise ValueError('Anchor hertz must be between minimum hertz and maximum hertz inclusive')
         self._anchor_hz = float(anchor_hz)
 
-    def generate_note_names(self):
+    def create_anchor_hz(self) -> float:
+        ceil_minimum_hz = ceil(self.minimum_hz)
+        floor_maximum_hz = floor(self.maximum_hz)
+        if ceil_minimum_hz < floor_maximum_hz:
+            return float(randint(ceil_minimum_hz, floor_maximum_hz))
+        return self.minimum_hz
+
+    def generate_note_names(self) -> List[List[Optional[str]]]:
         """Generate note names for frequency values in chromatic scale
 
         Returns:
             list: list of lists containing string note names, with None representing the absence of a note
         """
-        octaves = list()
+        octaves: List[List[Optional[str]]] = list()
         for i, single_octave_chromatic_scale in enumerate(self.chromatic_scale):
-            scale = list()
+            scale: List[Optional[str]] = list()
             for j, note in enumerate(single_octave_chromatic_scale):
                 if note is None:
                     scale.append(None)
@@ -82,37 +95,43 @@ class ChromaticContext:
         return octaves
 
     @property
-    def named_chromatic_scale(self):
+    def named_chromatic_scale(self) -> List[List[Tuple[Optional[str], Optional[float]]]]:
         """List of all named notes in chromatic scale, with None notes removed"""
         if not hasattr(self, '_named_chromatic_scale'):
-            self._named_chromatic_scale = \
-                [[(name, note) for note, name in zip(chromatic_scale, note_names)]
-                 for chromatic_scale, note_names in zip(self.chromatic_scale, self.note_names)]
+            self._named_chromatic_scale = [
+                [(name, note) for note, name in zip(chromatic_scale, note_names)]
+                for chromatic_scale, note_names in zip(self.chromatic_scale, self.note_names)
+            ]
         return self._named_chromatic_scale
 
     @property
-    def flat_chromatic_scale(self):
+    def flat_chromatic_scale(self) -> List[float]:
         """List of all frequencies in chromatic scale, with None notes removed"""
         if not hasattr(self, '_flat_chromatic_scale'):
-            self._flat_chromatic_scale = [note for single_octave_scale in self.chromatic_scale
-                                          for note in single_octave_scale if note is not None]
+            self._flat_chromatic_scale = [
+                note for single_octave_scale in self.chromatic_scale
+                for note in single_octave_scale if note is not None
+            ]
         return self._flat_chromatic_scale
 
     @property
-    def flat_note_names(self):
+    def flat_note_names(self) -> List[str]:
         """List of all note names in chromatic scale, with None notes removed"""
         if not hasattr(self, '_flat_note_names'):
-            self._flat_note_names = [note for single_octave_scale in self.note_names
-                                     for note in single_octave_scale if note is not None]
+            self._flat_note_names = [
+                note for single_octave_scale in self.note_names
+                for note in single_octave_scale if note is not None
+            ]
         return self._flat_note_names
 
     @property
-    def flat_named_chromatic_scale(self):
+    def flat_named_chromatic_scale(self) -> List[Tuple[str, float]]:
         """List of all named notes in chromatic scale, with None notes removed"""
         if not hasattr(self, '_flat_named_chromatic_scale'):
-            self._flat_named_chromatic_scale = [(name, note) for single_octave_scale in self.named_chromatic_scale
-                                                for name, note in single_octave_scale
-                                                if note is not None and name is not None]
+            self._flat_named_chromatic_scale = [
+                (name, note) for single_octave_scale in self.named_chromatic_scale
+                for name, note in single_octave_scale if note is not None and name is not None
+            ]
         return self._flat_named_chromatic_scale
 
 
@@ -125,14 +144,19 @@ class TrueOctavedChromaticContext(ChromaticContext):
         octave_range (int): number of true octaves an octave spans
     """
 
-    def __init__(self, single_octave_note_count=None, octave_range=None, **kwargs):
+    def __init__(
+        self,
+        single_octave_note_count: Optional[int] = None,
+        octave_range: Optional[int] = None,
+        **kwargs: Any,
+    ):
         super().__init__(**kwargs)
         self.single_octave_note_count = single_octave_note_count or \
             choices(SINGLE_OCTAVE_NOTE_COUNTS.options, weights=SINGLE_OCTAVE_NOTE_COUNTS.probabilities)[0]
         self.octave_range = octave_range or choices(OCTAVE_RANGES.options, weights=OCTAVE_RANGES.probabilities)[0]
 
     @property
-    def single_octave_note_count(self):
+    def single_octave_note_count(self) -> int:
         return self._single_octave_note_count
 
     @single_octave_note_count.setter
@@ -144,7 +168,7 @@ class TrueOctavedChromaticContext(ChromaticContext):
         self._single_octave_note_count = single_octave_note_count
 
     @property
-    def octave_range(self):
+    def octave_range(self) -> int:
         return self._octave_range
 
     @octave_range.setter
@@ -155,15 +179,16 @@ class TrueOctavedChromaticContext(ChromaticContext):
             raise ValueError('Octave range must be greater than or equal to 1')
         self._octave_range = octave_range
 
-    def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note): return []
+    def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note: float) -> List[Optional[float]]:
+        return []
 
-    def generate_chromatic_scale(self):
+    def generate_chromatic_scale(self) -> List[List[Optional[float]]]:
         """Generate the chromatic scale
 
         Returns:
             list: list of lists containing frequencies, with None representing the absence of a note
         """
-        octaves = list()
+        octaves: List[List[Optional[float]]] = list()
         current_note = self.anchor_hz
         while current_note <= self.maximum_hz:
             octaves.append(self.generate_single_octave_chromatic_scale_from_anchor_note(current_note))

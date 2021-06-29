@@ -1,7 +1,11 @@
-from collections import namedtuple
+from dataclasses import dataclass
 
 
-TempoRange = namedtuple('TempoRange', ['lower_bpm', 'upper_bpm'])
+@dataclass
+class TempoRange:
+    lower_bpm: int
+    upper_bpm: int
+
 
 GRAVE_RANGE = TempoRange(lower_bpm=25, upper_bpm=45)
 LARGO_RANGE = TempoRange(lower_bpm=40, upper_bpm=60)

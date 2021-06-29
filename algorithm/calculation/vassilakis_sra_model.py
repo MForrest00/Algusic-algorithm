@@ -3,7 +3,7 @@ from bisect import bisect_left, insort_left
 from dataclasses import dataclass
 from itertools import combinations
 from math import e
-from typing import Any, Iterator, List, Sequence, Tuple, Union
+from typing import Any, Dict, Iterator, List, Sequence, Tuple, Union
 from algorithm.calculation.sinusoid import Sinusoid
 
 
@@ -26,7 +26,7 @@ class VassilakisSRAModel:
         self.roughness_pairs = self.generate_roughness()
 
     @property
-    def sinusoids(self):
+    def sinusoids(self) -> List[Sinusoid]:
         return self._sinusoids
 
     @sinusoids.setter
@@ -34,7 +34,7 @@ class VassilakisSRAModel:
         self._sinusoids = sinusoids
 
     @property
-    def roughness_pairs(self):
+    def roughness_pairs(self) -> Dict[Tuple[Sinusoid, Sinusoid], float]:
         return self._roughness_pairs
 
     @roughness_pairs.setter
@@ -42,12 +42,12 @@ class VassilakisSRAModel:
         self._roughness_pairs = roughness_pairs
 
     @property
-    def roughness(self):
+    def roughness(self) -> float:
         return sum(v for v in self.roughness_pairs.values())
 
     @property
-    def roughness_contributions(self):
-        sinusoid_roughness = {s: 0 for s in self.sinusoids}
+    def roughness_contributions(self) -> Dict[Sinusoid, RoughnessContribution]:
+        sinusoid_roughness = {s: 0.0 for s in self.sinusoids}
         for k, v in self.roughness_pairs.items():
             sinusoid_1, sinusoid_2 = k
             sinusoid_roughness[sinusoid_1] += v
@@ -104,15 +104,15 @@ class VassilakisSRAModel:
             pow(e, -1 * b2 * s * (frequency_max - frequency_min))
         return pow(x, 0.1) * 0.5 * pow(y, 3.11) * z
 
-    def generate_roughness(self):
-        roughness_pairs = dict()
+    def generate_roughness(self) -> Dict[Tuple[Sinusoid, Sinusoid], float]:
+        roughness_pairs: Dict[Tuple[Sinusoid, Sinusoid], float] = dict()
         for pair in combinations(self.sinusoids, 2):
             sinusoid_1, sinusoid_2 = pair
             roughness_value = self.generate_roughness_value_from_pair(sinusoid_1, sinusoid_2)
             roughness_pairs.update({(sinusoid_1, sinusoid_2): roughness_value})
         return roughness_pairs
 
-    def add_sinusoid(self, sinusoid):
+    def add_sinusoid(self, sinusoid: Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]) -> None:
         """Add a sinusoid to the SRAModel
 
         Arguments:
@@ -129,7 +129,7 @@ class VassilakisSRAModel:
             self.roughness_pairs.update({(sinusoid, existing_sinusoid): roughness_value})
         insort_left(self.sinusoids, sinusoid)
 
-    def add_sinusoids(self, sinusoids):
+    def add_sinusoids(self, sinusoids: Sequence[Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]]) -> None:
         """Add sinusoids to the SRAModel
 
         Arguments:
@@ -139,7 +139,7 @@ class VassilakisSRAModel:
         for sinusoid in sinusoids:
             self.add_sinusoid(sinusoid)
 
-    def remove_sinusoid(self, sinusoid):
+    def remove_sinusoid(self, sinusoid: Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]) -> None:
         """Remove a sinusoid from the SRAModel
 
         Arguments:
@@ -158,7 +158,10 @@ class VassilakisSRAModel:
             if new_sinusoid:
                 self.add_sinusoid(new_sinusoid)
 
-    def remove_sinusoids(self, sinusoids):
+    def remove_sinusoids(
+        self,
+        sinusoids: Sequence[Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]],
+    ) -> None:
         """Remove sinusoids from the SRAModel
 
         Arguments:
@@ -168,7 +171,7 @@ class VassilakisSRAModel:
         for sinusoid in sinusoids:
             self.remove_sinusoid(sinusoid)
 
-    def remove_sinusoid_by_frequency(self, frequency):
+    def remove_sinusoid_by_frequency(self, frequency: Union[int, float]) -> None:
         """Remove a sinusoid from the SRAModel with the specified frequency
 
         Arguments:

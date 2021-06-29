@@ -1,4 +1,6 @@
 __pycache__/
 /.vscode/
 /.idea/
-/miscellaneous_tools/
+/miscellaneous_tools/chromedriver
+/miscellaneous_tools/*.log
+/miscellaneous_tools/*.txt

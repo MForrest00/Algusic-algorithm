@@ -1,7 +1,11 @@
-from collections import namedtuple
+from dataclasses import dataclass
 
 
-FrequencyRange = namedtuple('FrequencyRange', ['lower_hz', 'upper_hz'])
+@dataclass
+class FrequencyRange:
+    lower_hz: int
+    upper_hz: int
+
 
 SUB_BASS_RANGE = FrequencyRange(lower_hz=20, upper_hz=60)
 BASS_RANGE = FrequencyRange(lower_hz=60, upper_hz=250)
