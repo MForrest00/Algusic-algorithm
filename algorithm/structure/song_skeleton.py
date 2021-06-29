@@ -1,7 +1,7 @@
 from math import ceil, floor
 from random import choices, gauss, randint, shuffle
-from algorithm.data import NORMAL_MUSIC_TEMPO_RANGE
-from algorithm.tools import BAR_BEATS
+from algorithm.data.tempo_ranges import NORMAL_MUSIC_TEMPO_RANGE
+from algorithm.tools.option_probabilities import BAR_BEATS
 
 
 class SongSkeleton:

@@ -1,5 +1,5 @@
 import unittest
-from algorithm.calculation import Sinusoid
+from algorithm.calculation.sinusoid import Sinusoid
 
 
 class TestSinusoid(unittest.TestCase):

@@ -1,2 +1,0 @@
-from algorithm.data.frequency_ranges import NORMAL_MUSIC_FREQUENCY_RANGE
-from algorithm.data.tempo_ranges import NORMAL_MUSIC_TEMPO_RANGE

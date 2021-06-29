@@ -9,7 +9,6 @@ class OptionProbability:
 
 
 class OptionProbabilityContainer:
-
     def __init__(self, *option_probabilities: OptionProbability):
         self.option_probabilities = option_probabilities
 

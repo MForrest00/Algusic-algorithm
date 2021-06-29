@@ -1,6 +1,6 @@
 import random
 import unittest
-from algorithm.structure import SectionedSongSkeleton, SongSkeleton
+from algorithm.structure.song_skeleton import SectionedSongSkeleton, SongSkeleton
 
 
 class TestSongSkeleton(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from algorithm.pitch import OctavedAbstractChord
+from algorithm.pitch.abstract_chord import OctavedAbstractChord
 
 
 class TestOctavedAbstractChord(unittest.TestCase):

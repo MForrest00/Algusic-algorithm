@@ -1,5 +1,6 @@
 import unittest
-from algorithm.pitch.western import western_abstract_scale, western_chromatic_context
+import algorithm.pitch.western.western_abstract_scale as western_abstract_scale
+import algorithm.pitch.western.western_chromatic_context as western_chromatic_context
 from algorithm.pitch.western.western_applied_scale import WesternAppliedScale
 
 

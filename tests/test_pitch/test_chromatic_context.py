@@ -1,6 +1,9 @@
 import random
 import unittest
-from algorithm.pitch import EqualTemperedTrueOctavedChromaticContext, UnequalTemperedTrueOctavedChromaticContext
+from algorithm.pitch.chromatic_context import (
+    EqualTemperedTrueOctavedChromaticContext,
+    UnequalTemperedTrueOctavedChromaticContext,
+)
 
 
 class TestEqualTemperedTrueOctavedChromaticContext(unittest.TestCase):

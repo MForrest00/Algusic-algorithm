@@ -1,5 +1,5 @@
 import unittest
-from algorithm.pitch.western import western_abstract_scale
+import algorithm.pitch.western.western_abstract_scale as western_abstract_scale
 
 
 class TestWesternAbstractScale(unittest.TestCase):

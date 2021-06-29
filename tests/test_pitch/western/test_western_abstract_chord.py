@@ -1,5 +1,5 @@
 import unittest
-from algorithm.pitch.western import western_abstract_chord
+import algorithm.pitch.western.western_abstract_chord as western_abstract_chord
 
 
 class TestWesternAbstractChord(unittest.TestCase):

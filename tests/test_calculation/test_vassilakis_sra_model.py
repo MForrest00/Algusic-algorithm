@@ -1,5 +1,6 @@
 import unittest
-from algorithm.calculation import Sinusoid, VassilakisSRAModel
+from algorithm.calculation.sinusoid import Sinusoid
+from algorithm.calculation.vassilakis_sra_model import VassilakisSRAModel
 
 
 class TestSRAModel(unittest.TestCase):

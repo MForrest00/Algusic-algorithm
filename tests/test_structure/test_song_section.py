@@ -1,6 +1,5 @@
-import random
 import unittest
-from algorithm.structure import SongSection
+from algorithm.structure.song_section import SongSection
 
 
 class TestSongSection(unittest.TestCase):

@@ -2,7 +2,7 @@ from collections import defaultdict
 from random import choice, uniform
 from algorithm.structure.song_section import SongSection
 from algorithm.structure.song_skeleton import SectionedSongSkeleton
-from algorithm.tools import FactorGenerator
+from algorithm.tools.factor_generator import FactorGenerator
 
 
 class AppliedSectionedSong:

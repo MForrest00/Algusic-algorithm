@@ -2,8 +2,8 @@ from math import ceil, floor
 from random import choices, gauss, randint
 from string import ascii_uppercase
 from typing import Any, List, Optional, Tuple, Union
-from algorithm.data import NORMAL_MUSIC_FREQUENCY_RANGE
-from algorithm.tools import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
+from algorithm.data.frequency_ranges import NORMAL_MUSIC_FREQUENCY_RANGE
+from algorithm.tools.option_probabilities import OCTAVE_RANGES, SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class ChromaticContext:

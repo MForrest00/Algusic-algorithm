@@ -1,9 +1,9 @@
 import random
 import unittest
-from algorithm.pitch import (
-    AppliedOctavedScale,
+from algorithm.pitch.abstract_scale import OctavedAbstractScale
+from algorithm.pitch.applied_scale import AppliedOctavedScale
+from algorithm.pitch.chromatic_context import (
     EqualTemperedTrueOctavedChromaticContext,
-    OctavedAbstractScale,
     UnequalTemperedTrueOctavedChromaticContext,
 )
 

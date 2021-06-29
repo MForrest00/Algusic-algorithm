@@ -1,5 +1,5 @@
 import unittest
-from algorithm.rhythm import PercussiveContext
+from algorithm.rhythm.percussive_context import PercussiveContext
 
 
 class TestPercussiveContext(unittest.TestCase):

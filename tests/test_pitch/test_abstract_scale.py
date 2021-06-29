@@ -1,7 +1,7 @@
 import random
 import unittest
-from algorithm.pitch import OctavedAbstractScale
-from algorithm.tools import SINGLE_OCTAVE_NOTE_COUNTS
+from algorithm.pitch.abstract_scale import OctavedAbstractScale
+from algorithm.tools.option_probabilities import SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class TestOctavedAbstractScale(unittest.TestCase):

@@ -1,5 +1,5 @@
 import unittest
-from algorithm.pitch.western import western_chromatic_context
+import algorithm.pitch.western.western_chromatic_context as western_chromatic_context
 
 
 class TestWesternChromaticContext(unittest.TestCase):

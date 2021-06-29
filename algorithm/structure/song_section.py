@@ -1,4 +1,4 @@
-from algorithm.tools import FactorGenerator
+from algorithm.tools.factor_generator import FactorGenerator
 
 
 class SongSection:
