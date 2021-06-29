@@ -2,7 +2,7 @@ from algorithm.pitch.western.western_applied_scale import WesternAppliedScale
 from algorithm.pitch.western.western_abstract_scale import MajorAbstractScale
 from algorithm.pitch.western.western_chromatic_context import WesternEqualTempered440ChromaticContext
 from algorithm.structure.applied_sectioned_song import AppliedSectionedSong
-from algorithm.rhythm import PercussiveContext
+from algorithm.rhythm.percussive_context import PercussiveContext
 from algorithm.time.percussive_thread import PercussiveThread
 
 

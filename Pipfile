@@ -12,7 +12,7 @@ selenium = "==3.141.0"
 wxpython = "==4.0.6"
 
 [packages]
-pyo = "==1.0.0"
+pyo = "==1.0.4"
 scipy = "==1.3.1"
 
 [requires]

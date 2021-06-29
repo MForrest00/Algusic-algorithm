@@ -1,20 +1,19 @@
 from math import ceil
 from random import choice
-from algorithm.pitch import (
-    AppliedOctavedChord,
-    AppliedOctavedScale,
+from algorithm.pitch.abstract_scale import OctavedAbstractScale
+from algorithm.pitch.applied_chord import AppliedOctavedChord
+from algorithm.pitch.applied_scale import AppliedOctavedScale
+from algorithm.pitch.chromatic_context import (
     EqualTemperedTrueOctavedChromaticContext,
-    OctavedAbstractScale,
     UnequalTemperedTrueOctavedChromaticContext,
 )
-from algorithm.pitch.western import (
-    MajorAbstractChord,
-    MajorAbstractScale,
-    PhrygianAbstractScale,
+from algorithm.pitch.western.western_abstract_chord import MajorAbstractChord
+from algorithm.pitch.western.western_abstract_scale import MajorAbstractScale, PhrygianAbstractScale
+from algorithm.pitch.western.western_chromatic_context import (
     WesternEqualTempered440ChromaticContext,
     WesternJustTemperedA440ChromaticContext,
 )
-from algorithm.rhythm import PercussiveContext
+from algorithm.rhythm.percussive_context import PercussiveContext
 from algorithm.sound.simple_sound_generator import simple_sound_generator
 
 
