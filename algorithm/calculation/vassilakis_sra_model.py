@@ -1,11 +1,16 @@
+from __future__ import annotations
 from bisect import bisect_left, insort_left
-from collections import namedtuple
+from dataclasses import dataclass
 from itertools import combinations
 from math import e
+from typing import Any, Iterator, List, Sequence, Tuple, Union
 from algorithm.calculation.sinusoid import Sinusoid
 
 
-RoughnessContribution = namedtuple('RoughnessContribution', ['roughness', 'percentage'])
+@dataclass
+class RoughnessContribution:
+    roughness: float
+    percentage: float
 
 
 class VassilakisSRAModel:
@@ -16,7 +21,7 @@ class VassilakisSRAModel:
             amplitude of the sinusoid)
     """
 
-    def __init__(self, sinusoids):
+    def __init__(self, sinusoids: Sequence[Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]]):
         self.sinusoids = self.create_sinusoid_list(sinusoids)
         self.roughness_pairs = self.generate_roughness()
 
@@ -53,18 +58,24 @@ class VassilakisSRAModel:
         }
 
     @staticmethod
-    def generate_sinusoid_object(sinusoid):
+    def generate_sinusoid_object(sinusoid: Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]) -> Sinusoid:
         if isinstance(sinusoid, Sinusoid):
             return sinusoid
         frequency, amplitude = sinusoid
         return Sinusoid(frequency, amplitude)
 
-    def generate_sinusoid_objects(self, sinusoids):
+    def generate_sinusoid_objects(
+        self,
+        sinusoids: Sequence[Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]],
+    ) -> Iterator[Sinusoid]:
         for sinusoid in sinusoids:
             yield self.generate_sinusoid_object(sinusoid)
 
-    def create_sinusoid_list(self, sinusoids):
-        sinusoid_list = list()
+    def create_sinusoid_list(
+        self,
+        sinusoids: Sequence[Union[Sinusoid, Tuple[Union[int, float], Union[int, float]]]],
+    ) -> List[Sinusoid]:
+        sinusoid_list: List[Sinusoid] = list()
         for sinusoid in self.generate_sinusoid_objects(sinusoids):
             index = bisect_left(sinusoid_list, sinusoid)
             if index == len(sinusoid_list):
@@ -77,7 +88,7 @@ class VassilakisSRAModel:
         return sinusoid_list
 
     @staticmethod
-    def generate_roughness_value_from_pair(sinusoid_1, sinusoid_2):
+    def generate_roughness_value_from_pair(sinusoid_1: Sinusoid, sinusoid_2: Sinusoid) -> float:
         b1 = 3.5
         b2 = 5.75
         s1 = 0.0207
@@ -169,28 +180,29 @@ class VassilakisSRAModel:
 
     def __str__(self):
         sinusoid_count = len(self.sinusoids)
-        return 'Vassilakis SRA model with {} sinusoids and roughness value of {:.2f}'.format(sinusoid_count,
-                                                                                             self.roughness)
+        return f'Vassilakis SRA model with {sinusoid_count} sinusoids and roughness value of {self.roughness:.2f}'
 
     def __repr__(self):
         return 'VassilakisSRAModel([{}])'.format(', '.join(repr(sinusoid) for sinusoid in self.sinusoids))
 
-    def __lt__(self, other):
+    def __lt__(self, other: VassilakisSRAModel) -> bool:
         return self.roughness < other.roughness
 
-    def __gt__(self, other):
+    def __gt__(self, other: VassilakisSRAModel) -> bool:
         return self.roughness > other.roughness
 
-    def __eq__(self, other):
+    def __eq__(self, other: Any) -> bool:
+        if not isinstance(other, VassilakisSRAModel):
+            return NotImplemented
         return self.sinusoids == other.sinusoids
 
-    def __ne__(self, other):
+    def __ne__(self, other: Any) -> bool:
         return not self == other
 
-    def __le__(self, other):
+    def __le__(self, other: VassilakisSRAModel) -> bool:
         return self < other or self == other
 
-    def __ge__(self, other):
+    def __ge__(self, other: VassilakisSRAModel) -> bool:
         return self > other or self == other
 
     def __bool__(self):
