@@ -14,6 +14,7 @@ class ChromaticContext:
         maximum_hz (int or float): maximum frequency for which notes will be generated
         anchor_hz (int or float): frequency with which all other chromatic notes will be genereated
     """
+
     NOTE_NAMES = list(ascii_uppercase)
 
     def __init__(
@@ -35,9 +36,9 @@ class ChromaticContext:
     @minimum_hz.setter
     def minimum_hz(self, minimum_hz):
         if not isinstance(minimum_hz, (int, float)):
-            raise TypeError('Minimum hertz must be an integer or float')
+            raise TypeError("Minimum hertz must be an integer or float")
         if minimum_hz <= 0:
-            raise ValueError('Minimum hertz must be greater than 0')
+            raise ValueError("Minimum hertz must be greater than 0")
         self._minimum_hz = float(minimum_hz)
 
     @property
@@ -47,9 +48,9 @@ class ChromaticContext:
     @maximum_hz.setter
     def maximum_hz(self, maximum_hz):
         if not isinstance(maximum_hz, (int, float)):
-            raise TypeError('Maximum hertz must be an integer or float')
+            raise TypeError("Maximum hertz must be an integer or float")
         if maximum_hz < self.minimum_hz:
-            raise ValueError('Maximum hertz must be greater than or equal to minimum hertz')
+            raise ValueError("Maximum hertz must be greater than or equal to minimum hertz")
         self._maximum_hz = float(maximum_hz)
 
     @property
@@ -59,9 +60,9 @@ class ChromaticContext:
     @anchor_hz.setter
     def anchor_hz(self, anchor_hz):
         if not isinstance(anchor_hz, (int, float)):
-            raise TypeError('Anchor hertz must be an integer or float')
+            raise TypeError("Anchor hertz must be an integer or float")
         if not self.minimum_hz <= anchor_hz <= self.maximum_hz:
-            raise ValueError('Anchor hertz must be between minimum hertz and maximum hertz inclusive')
+            raise ValueError("Anchor hertz must be between minimum hertz and maximum hertz inclusive")
         self._anchor_hz = float(anchor_hz)
 
     def create_anchor_hz(self) -> float:
@@ -97,7 +98,7 @@ class ChromaticContext:
     @property
     def named_chromatic_scale(self) -> List[List[Tuple[Optional[str], Optional[float]]]]:
         """List of all named notes in chromatic scale, with None notes removed"""
-        if not hasattr(self, '_named_chromatic_scale'):
+        if not hasattr(self, "_named_chromatic_scale"):
             self._named_chromatic_scale = [
                 [(name, note) for note, name in zip(chromatic_scale, note_names)]
                 for chromatic_scale, note_names in zip(self.chromatic_scale, self.note_names)
@@ -107,30 +108,30 @@ class ChromaticContext:
     @property
     def flat_chromatic_scale(self) -> List[float]:
         """List of all frequencies in chromatic scale, with None notes removed"""
-        if not hasattr(self, '_flat_chromatic_scale'):
+        if not hasattr(self, "_flat_chromatic_scale"):
             self._flat_chromatic_scale = [
-                note for single_octave_scale in self.chromatic_scale
-                for note in single_octave_scale if note is not None
+                note for single_octave_scale in self.chromatic_scale for note in single_octave_scale if note is not None
             ]
         return self._flat_chromatic_scale
 
     @property
     def flat_note_names(self) -> List[str]:
         """List of all note names in chromatic scale, with None notes removed"""
-        if not hasattr(self, '_flat_note_names'):
+        if not hasattr(self, "_flat_note_names"):
             self._flat_note_names = [
-                note for single_octave_scale in self.note_names
-                for note in single_octave_scale if note is not None
+                note for single_octave_scale in self.note_names for note in single_octave_scale if note is not None
             ]
         return self._flat_note_names
 
     @property
     def flat_named_chromatic_scale(self) -> List[Tuple[str, float]]:
         """List of all named notes in chromatic scale, with None notes removed"""
-        if not hasattr(self, '_flat_named_chromatic_scale'):
+        if not hasattr(self, "_flat_named_chromatic_scale"):
             self._flat_named_chromatic_scale = [
-                (name, note) for single_octave_scale in self.named_chromatic_scale
-                for name, note in single_octave_scale if note is not None and name is not None
+                (name, note)
+                for single_octave_scale in self.named_chromatic_scale
+                for name, note in single_octave_scale
+                if note is not None and name is not None
             ]
         return self._flat_named_chromatic_scale
 
@@ -151,8 +152,10 @@ class TrueOctavedChromaticContext(ChromaticContext):
         **kwargs: Any,
     ):
         super().__init__(**kwargs)
-        self.single_octave_note_count = single_octave_note_count or \
-            choices(SINGLE_OCTAVE_NOTE_COUNTS.options, weights=SINGLE_OCTAVE_NOTE_COUNTS.probabilities)[0]
+        self.single_octave_note_count = (
+            single_octave_note_count
+            or choices(SINGLE_OCTAVE_NOTE_COUNTS.options, weights=SINGLE_OCTAVE_NOTE_COUNTS.probabilities)[0]
+        )
         self.octave_range = octave_range or choices(OCTAVE_RANGES.options, weights=OCTAVE_RANGES.probabilities)[0]
 
     @property
@@ -162,9 +165,9 @@ class TrueOctavedChromaticContext(ChromaticContext):
     @single_octave_note_count.setter
     def single_octave_note_count(self, single_octave_note_count):
         if not isinstance(single_octave_note_count, int):
-            raise TypeError('Single octave note count must be an integer')
+            raise TypeError("Single octave note count must be an integer")
         if single_octave_note_count < 1:
-            raise ValueError('Single octave note count must be greater than or equal to 1')
+            raise ValueError("Single octave note count must be greater than or equal to 1")
         self._single_octave_note_count = single_octave_note_count
 
     @property
@@ -174,9 +177,9 @@ class TrueOctavedChromaticContext(ChromaticContext):
     @octave_range.setter
     def octave_range(self, octave_range):
         if not isinstance(octave_range, int):
-            raise TypeError('Octave range must be an integer')
+            raise TypeError("Octave range must be an integer")
         if octave_range < 1:
-            raise ValueError('Octave range must be greater than or equal to 1')
+            raise ValueError("Octave range must be greater than or equal to 1")
         self._octave_range = octave_range
 
     def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note: float) -> List[Optional[float]]:
@@ -259,6 +262,7 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     Arguments:
         note_ratios (list): floats representing the ratios between notes and the anchor in the chromatic scale
     """
+
     NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE = 0.25
 
     def __init__(
@@ -278,12 +282,12 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     @note_ratios.setter
     def note_ratios(self, note_ratios):
         if not isinstance(note_ratios, list) or any(not isinstance(r, (int, float)) for r in note_ratios):
-            raise TypeError('Note ratios must be a list of integers or floats')
+            raise TypeError("Note ratios must be a list of integers or floats")
         if len(note_ratios) != self.single_octave_note_count - 1:
-            raise ValueError('Length of note ratios must be equal to the single octave note count minus 1')
+            raise ValueError("Length of note ratios must be equal to the single octave note count minus 1")
         if len(note_ratios) > 0 and any(not 1 < r < pow(2, self.octave_range) for r in note_ratios):
             raise ValueError(
-                'Note ratios must be between 1 and 2 raised to the power of the octave range, non-inclusive'
+                "Note ratios must be between 1 and 2 raised to the power of the octave range, non-inclusive"
             )
         self._note_ratios = sorted(note_ratios)
 
@@ -304,9 +308,11 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
         max_iterations = 5
         following_ratio_diff = pow(self.standard_note_ratio, index + 1) - pow(self.standard_note_ratio, (index))
         for _ in range(max_iterations):
-            possible_ratio = pow(self.standard_note_ratio, (index)) + \
-                gauss(0, following_ratio_diff *
-                      UnequalTemperedTrueOctavedChromaticContext.NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE)
+            possible_ratio = pow(self.standard_note_ratio, (index)) + gauss(
+                0,
+                following_ratio_diff
+                * UnequalTemperedTrueOctavedChromaticContext.NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE,
+            )
             if pow(self.standard_note_ratio, index - 1) < possible_ratio < pow(self.standard_note_ratio, index + 1):
                 return possible_ratio
         return pow(self.standard_note_ratio, (index))

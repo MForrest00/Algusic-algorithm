@@ -7,12 +7,12 @@ from algorithm.time.percussive_thread import PercussiveThread
 
 
 class ThreadedAppliedSectionedSong:
-
     def __init__(self, applied_sectioned_song, percussive_context=None, pitched_context=None):
         self.applied_sectioned_song = applied_sectioned_song
         self.percussive_context = percussive_context or PercussiveContext()
-        self.pitched_context = pitched_context or WesternAppliedScale(WesternEqualTempered440ChromaticContext(),
-                                                                      MajorAbstractScale())
+        self.pitched_context = pitched_context or WesternAppliedScale(
+            WesternEqualTempered440ChromaticContext(), MajorAbstractScale()
+        )
         self.percussive_threads = self.generate_percussive_threads()
 
     @property
@@ -22,7 +22,7 @@ class ThreadedAppliedSectionedSong:
     @applied_sectioned_song.setter
     def applied_sectioned_song(self, applied_sectioned_song):
         if not isinstance(applied_sectioned_song, AppliedSectionedSong):
-            raise TypeError('Applied sectioned song must be of type AppliedSectionedSong')
+            raise TypeError("Applied sectioned song must be of type AppliedSectionedSong")
         self._applied_sectioned_song = applied_sectioned_song
 
     @property
@@ -32,7 +32,7 @@ class ThreadedAppliedSectionedSong:
     @percussive_context.setter
     def percussive_context(self, percussive_context):
         if not isinstance(percussive_context, PercussiveContext):
-            raise TypeError('Percussive context must be of type PercussiveContext')
+            raise TypeError("Percussive context must be of type PercussiveContext")
         self._percussive_context = percussive_context
 
     def generate_percussive_threads(self):

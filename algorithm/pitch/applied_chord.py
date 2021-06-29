@@ -3,7 +3,6 @@ from algorithm.pitch.applied_scale import AppliedOctavedScale
 
 
 class AppliedOctavedChord:
-
     def __init__(self, applied_scale, abstract_chord, chord_anchor=None):
         self.applied_scale = applied_scale
         self.abstract_chord = abstract_chord
@@ -17,7 +16,7 @@ class AppliedOctavedChord:
     @applied_scale.setter
     def applied_scale(self, applied_scale):
         if not isinstance(applied_scale, AppliedOctavedScale):
-            raise TypeError('Applied scale must be of type AppliedOctavedScale')
+            raise TypeError("Applied scale must be of type AppliedOctavedScale")
         self._applied_scale = applied_scale
 
     @property
@@ -27,12 +26,12 @@ class AppliedOctavedChord:
     @abstract_chord.setter
     def abstract_chord(self, abstract_chord):
         if not isinstance(abstract_chord, OctavedAbstractChord):
-            raise TypeError('Abstract chord must be of type OctavedAbstractChord')
+            raise TypeError("Abstract chord must be of type OctavedAbstractChord")
         self._abstract_chord = abstract_chord
 
     @property
     def symbol(self):
-        if not hasattr(self, '_symbol'):
+        if not hasattr(self, "_symbol"):
             if isinstance(self.chord_anchor, str):
                 note_name = self.chord_anchor
             else:
@@ -41,7 +40,7 @@ class AppliedOctavedChord:
                 else:
                     target_index = self.applied_scale.chromatic_context.flat_chromatic_scale.index(self.chord_anchor)
                 note_name = self.applied_scale.chromatic_context.flat_note_names[target_index]
-            note_name = ''.join(j for j in note_name if not j.isdigit())
+            note_name = "".join(j for j in note_name if not j.isdigit())
             self._symbol = self.abstract_chord.render_symbol(note_name)
         return self._symbol
 
@@ -51,8 +50,12 @@ class AppliedOctavedChord:
 
     @property
     def chord_degrees_in_scale(self):
-        single_octave_chord_degrees = set([d % self.applied_scale.chromatic_context.single_octave_note_count
-                                           for d in self.abstract_chord.chord_degrees])
+        single_octave_chord_degrees = set(
+            [
+                d % self.applied_scale.chromatic_context.single_octave_note_count
+                for d in self.abstract_chord.chord_degrees
+            ]
+        )
         return len(single_octave_chord_degrees - set([0] + self.applied_scale.abstract_scale.scale_degrees)) == 0
 
     def generate_chord(self):
