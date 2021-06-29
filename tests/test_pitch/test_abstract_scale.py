@@ -5,7 +5,6 @@ from algorithm.tools import SINGLE_OCTAVE_NOTE_COUNTS
 
 
 class TestOctavedAbstractScale(unittest.TestCase):
-
     def test_generate_octaved_abstract_scale(self):
         for single_octave_note_count in SINGLE_OCTAVE_NOTE_COUNTS:
             for s in range(100):

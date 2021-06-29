@@ -4,7 +4,6 @@ from algorithm.structure import SongSection
 
 
 class TestSongSection(unittest.TestCase):
-
     def test_generate_song_section(self):
         for s in range(100):
             song_section = SongSection()

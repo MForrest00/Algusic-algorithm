@@ -38,8 +38,8 @@ def test_1():
         WesternEqualTempered440ChromaticContext.chromatic_scale,
         WesternEqualTempered440ChromaticContext.flat_chromatic_scale,
     )
-    print('Playing western equal tempered 440 chromatic scale')
-    print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
+    print("Playing western equal tempered 440 chromatic scale")
+    print("Chromatic sequence:", sequence[: ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
 
@@ -48,28 +48,28 @@ def test_2():
         WesternJustTemperedA440ChromaticContext.chromatic_scale,
         WesternJustTemperedA440ChromaticContext.flat_chromatic_scale,
     )
-    print('Playing western just tempered chromatic scale with A at 440')
-    print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
+    print("Playing western just tempered chromatic scale with A at 440")
+    print("Chromatic sequence:", sequence[: ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
 
 def test_3():
     chromatic_context = EqualTemperedTrueOctavedChromaticContext()
     sequence = generate_sequence_from_scale(chromatic_context.chromatic_scale, chromatic_context.flat_chromatic_scale)
-    print('Playing random equal tempered true octaved chromatic scale')
-    print('Single octave note count:', chromatic_context.single_octave_note_count)
-    print('Octave range:', chromatic_context.octave_range)
-    print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
+    print("Playing random equal tempered true octaved chromatic scale")
+    print("Single octave note count:", chromatic_context.single_octave_note_count)
+    print("Octave range:", chromatic_context.octave_range)
+    print("Chromatic sequence:", sequence[: ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
 
 def test_4():
     chromatic_context = UnequalTemperedTrueOctavedChromaticContext()
     sequence = generate_sequence_from_scale(chromatic_context.chromatic_scale, chromatic_context.flat_chromatic_scale)
-    print('Playing random unequal tempered true octaved chromatic scale')
-    print('Single octave note count:', chromatic_context.single_octave_note_count)
-    print('Octave range:', chromatic_context.octave_range)
-    print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
+    print("Playing random unequal tempered true octaved chromatic scale")
+    print("Single octave note count:", chromatic_context.single_octave_note_count)
+    print("Octave range:", chromatic_context.octave_range)
+    print("Chromatic sequence:", sequence[: ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
 
@@ -80,9 +80,9 @@ def test_5():
         applied_scale.chromatic_context.flat_chromatic_scale,
     )
     scale_sequence = generate_sequence_from_scale(applied_scale.scale, applied_scale.flat_scale)
-    print('Playing western equal tempered 440 Major scale with chromatic context scale')
-    print('Chromatic sequence:', chromatic_sequence[:ceil(len(chromatic_sequence) / 2)])
-    print('Scale sequence:', scale_sequence[:ceil(len(scale_sequence) / 2)])
+    print("Playing western equal tempered 440 Major scale with chromatic context scale")
+    print("Chromatic sequence:", chromatic_sequence[: ceil(len(chromatic_sequence) / 2)])
+    print("Scale sequence:", scale_sequence[: ceil(len(scale_sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(scale_sequence, chromatic_sequence)
 
 
@@ -93,9 +93,9 @@ def test_6():
         applied_scale.chromatic_context.flat_chromatic_scale,
     )
     scale_sequence = generate_sequence_from_scale(applied_scale.scale, applied_scale.flat_scale)
-    print('Playing western equal tempered 440 Phrygian scale with chromatic context scale')
-    print('Chromatic sequence:', chromatic_sequence[:ceil(len(chromatic_sequence) / 2)])
-    print('Scale sequence:', scale_sequence[:ceil(len(scale_sequence) / 2)])
+    print("Playing western equal tempered 440 Phrygian scale with chromatic context scale")
+    print("Chromatic sequence:", chromatic_sequence[: ceil(len(chromatic_sequence) / 2)])
+    print("Scale sequence:", scale_sequence[: ceil(len(scale_sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(scale_sequence, chromatic_sequence)
 
 
@@ -108,21 +108,21 @@ def test_7():
         applied_scale.chromatic_context.flat_chromatic_scale,
     )
     scale_sequence = generate_sequence_from_scale(applied_scale.scale, applied_scale.flat_scale)
-    print('Playing random scale with random equal tempered true octaved chromatic context scale')
-    print('Chromatic single octave note count:', chromatic_context.single_octave_note_count)
-    print('Chromatic octave range:', chromatic_context.octave_range)
-    print('Scale single octave note count:', len(applied_scale.abstract_scale.scale_degrees) + 1)
-    print('Chromatic sequence:', chromatic_sequence[:ceil(len(chromatic_sequence) / 2)])
-    print('Scale sequence:', scale_sequence[:ceil(len(scale_sequence) / 2)])
+    print("Playing random scale with random equal tempered true octaved chromatic context scale")
+    print("Chromatic single octave note count:", chromatic_context.single_octave_note_count)
+    print("Chromatic octave range:", chromatic_context.octave_range)
+    print("Scale single octave note count:", len(applied_scale.abstract_scale.scale_degrees) + 1)
+    print("Chromatic sequence:", chromatic_sequence[: ceil(len(chromatic_sequence) / 2)])
+    print("Scale sequence:", scale_sequence[: ceil(len(scale_sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(scale_sequence, chromatic_sequence)
 
 
-def test_8(chord_anchor='D4'):
+def test_8(chord_anchor="D4"):
     applied_scale = AppliedOctavedScale(WesternEqualTempered440ChromaticContext, MajorAbstractScale)
     applied_chord = AppliedOctavedChord(applied_scale, MajorAbstractChord, chord_anchor=chord_anchor)
     sequence = [applied_chord.chord]
-    print(f'Playing western equal tempered 440 Major chord on {chord_anchor}')
-    print('Chord sequence:', sequence)
+    print(f"Playing western equal tempered 440 Major chord on {chord_anchor}")
+    print("Chord sequence:", sequence)
     simple_sound_generator.play_pitch_sequences(sequence)
 
 
@@ -132,5 +132,5 @@ def test_9():
     simple_sound_generator.play_sample_sequence(random_samples)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     test_3()

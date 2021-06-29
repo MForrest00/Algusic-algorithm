@@ -4,7 +4,6 @@ from algorithm.pitch.western.western_chromatic_context import WesternChromaticCo
 
 
 class WesternAppliedScale(AppliedOctavedScale):
-
     def __init__(self, chromatic_context, abstract_scale, scale_anchor=None):
         super().__init__(chromatic_context, abstract_scale, scale_anchor)
 
@@ -15,7 +14,7 @@ class WesternAppliedScale(AppliedOctavedScale):
     @chromatic_context.setter
     def chromatic_context(self, chromatic_context):
         if not issubclass(chromatic_context.__class__, WesternChromaticContext):
-            raise TypeError('Chromatic context must be a subclass of WesternChromaticContext')
+            raise TypeError("Chromatic context must be a subclass of WesternChromaticContext")
         self._chromatic_context = chromatic_context
 
     @property
@@ -25,7 +24,7 @@ class WesternAppliedScale(AppliedOctavedScale):
     @abstract_scale.setter
     def abstract_scale(self, abstract_scale):
         if not isinstance(abstract_scale, WesternOctavedAbstractScale):
-            raise TypeError('Abstract scale must be of type WesternOctavedAbstractScale')
+            raise TypeError("Abstract scale must be of type WesternOctavedAbstractScale")
         self._abstract_scale = abstract_scale
 
     @property

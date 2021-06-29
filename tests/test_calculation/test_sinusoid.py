@@ -3,7 +3,6 @@ from algorithm.calculation import Sinusoid
 
 
 class TestSinusoid(unittest.TestCase):
-
     def setUp(self):
         self.s1 = Sinusoid(440.0, 1.0)
         self.s2 = Sinusoid(440.0, 2.0)
@@ -12,7 +11,7 @@ class TestSinusoid(unittest.TestCase):
 
     def test_construction(self):
         with self.assertRaises(TypeError):
-            Sinusoid('string', 1.0)
+            Sinusoid("string", 1.0)
         with self.assertRaises(ValueError):
             Sinusoid(0.0, 1.0)
             Sinusoid(1.0, -1.0)

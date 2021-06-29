@@ -211,29 +211,29 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
         self.chromatic_scale = self.generate_chromatic_scale()
         self.note_names = self.generate_note_names()
 
-    def generate_next_note(self, note):
+    def generate_next_note(self, note: float) -> float:
         """Generate next note within the chromatic context
 
         Arguments:
-            note (int or float): note against which to generate the next note
+            note (float): note against which to generate the next note
 
         Returns:
             float: next note
         """
         return note * pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
-    def generate_previous_note(self, note):
+    def generate_previous_note(self, note: float) -> float:
         """Generate previous note within the chromatic context
 
         Arguments:
-            note (int or float): note against which to generate the previous note
+            note (float): note against which to generate the previous note
 
         Returns:
             float: previous note
         """
         return note / pow(pow(2, self.octave_range), 1 / self.single_octave_note_count)
 
-    def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note):
+    def generate_single_octave_chromatic_scale_from_anchor_note(self, anchor_note: float) -> List[Optional[float]]:
         """Generate a single octave chromatic scale from the first note in the scale
 
         Arguments:
@@ -242,7 +242,7 @@ class EqualTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
         Returns:
             list: floats representing each note in the scale, with None representing the absence of a Note
         """
-        scale = list()
+        scale: List[Optional[float]] = list()
         current_note = anchor_note
         for _ in range(self.single_octave_note_count):
             if self.minimum_hz <= current_note <= self.maximum_hz:
@@ -261,7 +261,11 @@ class UnequalTemperedTrueOctavedChromaticContext(TrueOctavedChromaticContext):
     """
     NOTE_RATIO_STANDARD_DEVIATION_PERCENTAGE = 0.25
 
-    def __init__(self, note_ratios=None, **kwargs):
+    def __init__(
+        self,
+        note_ratios=None,
+        **kwargs: Any,
+    ):
         super().__init__(**kwargs)
         self.note_ratios = note_ratios or self.generate_note_ratios()
         self.chromatic_scale = self.generate_chromatic_scale()

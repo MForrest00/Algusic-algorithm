@@ -3,7 +3,6 @@ from algorithm.calculation import Sinusoid, VassilakisSRAModel
 
 
 class TestSRAModel(unittest.TestCase):
-
     def setUp(self):
         self.sra1 = VassilakisSRAModel([(440.0, 1.0)])
         self.sra2 = VassilakisSRAModel([(440.0, 1.0), (466.1638, 1.0)])
