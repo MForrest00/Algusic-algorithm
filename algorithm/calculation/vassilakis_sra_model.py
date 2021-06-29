@@ -53,8 +53,7 @@ class VassilakisSRAModel:
             sinusoid_roughness[sinusoid_1] += v
             sinusoid_roughness[sinusoid_2] += v
         return {
-            k: RoughnessContribution(roughness=v, percentage=v / self.roughness)
-            for k, v in sinusoid_roughness.items()
+            k: RoughnessContribution(roughness=v, percentage=v / self.roughness) for k, v in sinusoid_roughness.items()
         }
 
     @staticmethod
@@ -100,8 +99,9 @@ class VassilakisSRAModel:
         s = 0.24 / ((s1 * frequency_min) + s2)
         x = amplitude_min * amplitude_max
         y = (2 * amplitude_min) / (amplitude_min + amplitude_max)
-        z = pow(e, -1 * b1 * s * (frequency_max - frequency_min)) - \
-            pow(e, -1 * b2 * s * (frequency_max - frequency_min))
+        z = pow(e, -1 * b1 * s * (frequency_max - frequency_min)) - pow(
+            e, -1 * b2 * s * (frequency_max - frequency_min)
+        )
         return pow(x, 0.1) * 0.5 * pow(y, 3.11) * z
 
     def generate_roughness(self) -> Dict[Tuple[Sinusoid, Sinusoid], float]:
@@ -183,10 +183,10 @@ class VassilakisSRAModel:
 
     def __str__(self):
         sinusoid_count = len(self.sinusoids)
-        return f'Vassilakis SRA model with {sinusoid_count} sinusoids and roughness value of {self.roughness:.2f}'
+        return f"Vassilakis SRA model with {sinusoid_count} sinusoids and roughness value of {self.roughness:.2f}"
 
     def __repr__(self):
-        return 'VassilakisSRAModel([{}])'.format(', '.join(repr(sinusoid) for sinusoid in self.sinusoids))
+        return "VassilakisSRAModel([{}])".format(", ".join(repr(sinusoid) for sinusoid in self.sinusoids))
 
     def __lt__(self, other: VassilakisSRAModel) -> bool:
         return self.roughness < other.roughness

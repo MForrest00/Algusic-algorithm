@@ -3,13 +3,13 @@ from pyo import Fader, Pattern, RCOsc, Server, SfPlayer
 
 
 class SimpleSoundGenerator:
-
     def __init__(self):
         self.server = Server()
 
     def play_pitch_sequences(self, *sequences):
-        max_frequency_list_length = max([1] + [len(i) for sequence in sequences
-                                               for i in sequence if isinstance(i, list)])
+        max_frequency_list_length = max(
+            [1] + [len(i) for sequence in sequences for i in sequence if isinstance(i, list)]
+        )
         sequences = deque([deque(sequence) for sequence in sequences])
         sequence = sequences[0].copy()
         self.server.boot()
@@ -34,7 +34,7 @@ class SimpleSoundGenerator:
         pat = Pattern(function=get_next_note, time=0.5).play()
         # self.server.gui(locals())
         self.server.start()
-        input('Press enter to stop playback')
+        input("Press enter to stop playback")
         self.server.stop()
         self.server.shutdown()
 
@@ -42,7 +42,7 @@ class SimpleSoundGenerator:
         sample_sequence = sequence.copy()
         self.server.boot()
         sample = sample_sequence.pop()
-        sf = SfPlayer(sample.file_path, mul=.3).out()
+        sf = SfPlayer(sample.file_path, mul=0.3).out()
 
         def get_next_sample():
             nonlocal sequence
@@ -53,13 +53,13 @@ class SimpleSoundGenerator:
             except IndexError:
                 sample_sequence = sequence.copy()
                 sample = sample_sequence.pop()
-            sf = SfPlayer(sample.file_path, mul=.3).out()
+            sf = SfPlayer(sample.file_path, mul=0.3).out()
             pat.time = sample.length + 0.5
 
         pat = Pattern(function=get_next_sample, time=sample.length + 0.5).play()
         # self.server.gui(locals())
         self.server.start()
-        input('Press enter to stop playback')
+        input("Press enter to stop playback")
         self.server.stop()
         self.server.shutdown()
 

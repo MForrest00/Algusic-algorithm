@@ -2,7 +2,6 @@ from algorithm.structure.song_section import SongSection
 
 
 class WesternSongSection(SongSection):
-
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 

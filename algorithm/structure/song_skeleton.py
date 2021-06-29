@@ -18,14 +18,21 @@ class SongSkeleton:
     Attributes:
         bars (list): List of bars with beat count
     """
+
     TEMPO_STANDARD_DEVIATION_PERCENTAGE = 0.5
     SONG_LENGTH_MEAN = 4 * 60
     SONG_LENGTH_STANDARD_DEVIATION = 60
     MINIMUM_SONG_LENGTH = 20
 
-    def __init__(self, minimum_tempo=NORMAL_MUSIC_TEMPO_RANGE.lower_bpm,
-                 maximum_tempo=NORMAL_MUSIC_TEMPO_RANGE.upper_bpm - 1, tempo=None, bar_beats=None,
-                 song_length=None, bar_count_modulus=None):
+    def __init__(
+        self,
+        minimum_tempo=NORMAL_MUSIC_TEMPO_RANGE.lower_bpm,
+        maximum_tempo=NORMAL_MUSIC_TEMPO_RANGE.upper_bpm - 1,
+        tempo=None,
+        bar_beats=None,
+        song_length=None,
+        bar_count_modulus=None,
+    ):
         self.minimum_tempo = minimum_tempo
         self.maximum_tempo = maximum_tempo
         self.tempo = tempo or self.generate_tempo()
@@ -41,7 +48,7 @@ class SongSkeleton:
     @bar_count_modulus.setter
     def bar_count_modulus(self, bar_count_modulus):
         if bar_count_modulus is not None and (not isinstance(bar_count_modulus, int) or bar_count_modulus <= 1):
-            raise TypeError('Bar count modulus must be None or an integer great than 1')
+            raise TypeError("Bar count modulus must be None or an integer great than 1")
         self._bar_count_modulus = bar_count_modulus
 
     def generate_tempo(self):
@@ -119,12 +126,20 @@ class SectionedSongSkeleton(SongSkeleton):
     Attributes:
         sectioned_bar_lengths (list): List of bar counts for each section
     """
+
     MINIMUM_SECTIONS = 1
     MAXIMUM_SECTIONS = 20
     MINIMUM_SECTION_LENGTH = 10
 
-    def __init__(self, minimum_sections=None, maximum_sections=None, maximum_section_length=None,
-                 minimum_section_length=None, section_count=None, **kwargs):
+    def __init__(
+        self,
+        minimum_sections=None,
+        maximum_sections=None,
+        maximum_section_length=None,
+        minimum_section_length=None,
+        section_count=None,
+        **kwargs
+    ):
         super().__init__(**kwargs)
         self.minimum_sections = minimum_sections or SectionedSongSkeleton.MINIMUM_SECTIONS
         self.maximum_sections = maximum_sections or SectionedSongSkeleton.MAXIMUM_SECTIONS
@@ -140,7 +155,7 @@ class SectionedSongSkeleton(SongSkeleton):
     @minimum_sections.setter
     def minimum_sections(self, minimum_sections):
         if minimum_sections is not None and (not isinstance(minimum_sections, int) or minimum_sections <= 0):
-            raise TypeError('Minimum section count must be None or an integer greater than 0')
+            raise TypeError("Minimum section count must be None or an integer greater than 0")
         self._minimum_sections = minimum_sections
 
     @property
@@ -151,9 +166,9 @@ class SectionedSongSkeleton(SongSkeleton):
     def maximum_sections(self, maximum_sections):
         if maximum_sections is not None:
             if not isinstance(maximum_sections, int) or maximum_sections <= 0:
-                raise TypeError('Maximum section count must be None or an integer greater than 0')
+                raise TypeError("Maximum section count must be None or an integer greater than 0")
             if self.minimum_sections is not None and maximum_sections < self.minimum_sections:
-                raise ValueError('Maximum section count must be greater than or equal to the minimum section count')
+                raise ValueError("Maximum section count must be greater than or equal to the minimum section count")
         self._maximum_sections = maximum_sections
 
     @property
@@ -162,9 +177,10 @@ class SectionedSongSkeleton(SongSkeleton):
 
     @maximum_section_length.setter
     def maximum_section_length(self, maximum_section_length):
-        if maximum_section_length is not None and \
-                (not isinstance(maximum_section_length, (int, float)) or maximum_section_length <= 0):
-            raise TypeError('Maximum section length must be None or an integer or float greater than 0')
+        if maximum_section_length is not None and (
+            not isinstance(maximum_section_length, (int, float)) or maximum_section_length <= 0
+        ):
+            raise TypeError("Maximum section length must be None or an integer or float greater than 0")
         self._maximum_section_length = maximum_section_length
 
     @property
@@ -175,22 +191,30 @@ class SectionedSongSkeleton(SongSkeleton):
     def minimum_section_length(self, minimum_section_length):
         if minimum_section_length is not None:
             if not isinstance(minimum_section_length, (int, float)) or minimum_section_length <= 0:
-                raise TypeError('Minimum section length must be None or an integer or float greater than 0')
+                raise TypeError("Minimum section length must be None or an integer or float greater than 0")
             if self.maximum_section_length is not None and minimum_section_length > self.maximum_section_length:
-                raise ValueError('Minimum section length must be less than or equal to the maximum section length')
+                raise ValueError("Minimum section length must be less than or equal to the maximum section length")
         self._minimum_section_length = minimum_section_length
 
     @property
     def maximum_beats(self):
         """Maximum number of beats in a section as determined by maximum section length"""
-        return floor(self.seconds_to_beats(self.maximum_section_length)) if self.maximum_section_length and \
-               floor(self.seconds_to_bars(self.maximum_section_length)) * self.section_count >= len(self.bars) else None
+        return (
+            floor(self.seconds_to_beats(self.maximum_section_length))
+            if self.maximum_section_length
+            and floor(self.seconds_to_bars(self.maximum_section_length)) * self.section_count >= len(self.bars)
+            else None
+        )
 
     @property
     def minimum_beats(self):
         """Minimum number of beats in a section as determined by minimum section length"""
-        return ceil(self.seconds_to_beats(self.minimum_section_length)) if self.minimum_section_length and \
-               ceil(self.seconds_to_bars(self.minimum_section_length)) * self.section_count <= len(self.bars) else None
+        return (
+            ceil(self.seconds_to_beats(self.minimum_section_length))
+            if self.minimum_section_length
+            and ceil(self.seconds_to_bars(self.minimum_section_length)) * self.section_count <= len(self.bars)
+            else None
+        )
 
     def generate_section_count(self):
         minimum_sections = 1

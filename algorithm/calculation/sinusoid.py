@@ -30,9 +30,9 @@ class Sinusoid:
             ValueError: if argument is not greater than 0
         """
         if not isinstance(argument, (int, float)):
-            raise TypeError('Frequency and amplitude values must be integers or floats')
+            raise TypeError("Frequency and amplitude values must be integers or floats")
         if argument <= 0:
-            raise ValueError('Frequency and amplitude values must be greater than 0')
+            raise ValueError("Frequency and amplitude values must be greater than 0")
 
     @property
     def frequency(self) -> float:
@@ -53,31 +53,31 @@ class Sinusoid:
         self._amplitude = float(amplitude)
 
     def __str__(self):
-        return 'Sinusoid with frequency of {} and amplitude of {}'.format(self.frequency, self.amplitude)
+        return "Sinusoid with frequency of {} and amplitude of {}".format(self.frequency, self.amplitude)
 
     def __repr__(self):
-        return 'Sinusoid({}, {})'.format(self.frequency, self.amplitude)
+        return "Sinusoid({}, {})".format(self.frequency, self.amplitude)
 
     def __add__(self, other: Sinusoid) -> Sinusoid:
         if self.frequency != other.frequency:
-            raise ValueError('Only Sinusoids with the same frequency can be added')
+            raise ValueError("Only Sinusoids with the same frequency can be added")
         return self.__class__(self.frequency, self.amplitude + other.amplitude)
 
     def __sub__(self, other: Sinusoid) -> Optional[Sinusoid]:
         if self.frequency != other.frequency:
-            raise ValueError('Only Sinusoids with the same frequency can be subtracted')
+            raise ValueError("Only Sinusoids with the same frequency can be subtracted")
         if self.amplitude > other.amplitude:
             return self.__class__(self.frequency, self.amplitude - other.amplitude)
         return None
 
     def __mul__(self, other: Union[int, float]) -> Sinusoid:
         if not isinstance(other, (int, float)) or other <= 0:
-            raise ValueError('Sinusoids can only be multiplied by an integer or a float greater than 0')
+            raise ValueError("Sinusoids can only be multiplied by an integer or a float greater than 0")
         return self.__class__(self.frequency, self.amplitude * other)
 
     def __truediv__(self, other: Union[int, float]) -> Sinusoid:
         if not isinstance(other, (int, float)) or other <= 0:
-            raise ValueError('Sinusoids can only be divided by an integer or a float greater than 0')
+            raise ValueError("Sinusoids can only be divided by an integer or a float greater than 0")
         return self.__class__(self.frequency, self.amplitude / other)
 
     def __lt__(self, other: Sinusoid) -> bool:
