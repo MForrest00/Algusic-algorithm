@@ -1,9 +1,19 @@
 from math import ceil
 from random import choice
-from algorithm.pitch import AppliedOctavedChord, AppliedOctavedScale, EqualTemperedTrueOctavedChromaticContext, \
-    OctavedAbstractScale, UnequalTemperedTrueOctavedChromaticContext
-from algorithm.pitch.western import MajorAbstractChord, MajorAbstractScale, PhrygianAbstractScale, \
-    WesternEqualTempered440ChromaticContext, WesternJustTemperedA440ChromaticContext
+from algorithm.pitch import (
+    AppliedOctavedChord,
+    AppliedOctavedScale,
+    EqualTemperedTrueOctavedChromaticContext,
+    OctavedAbstractScale,
+    UnequalTemperedTrueOctavedChromaticContext,
+)
+from algorithm.pitch.western import (
+    MajorAbstractChord,
+    MajorAbstractScale,
+    PhrygianAbstractScale,
+    WesternEqualTempered440ChromaticContext,
+    WesternJustTemperedA440ChromaticContext,
+)
 from algorithm.rhythm import PercussiveContext
 from algorithm.sound.simple_sound_generator import simple_sound_generator
 
@@ -24,16 +34,20 @@ def generate_sequence_from_scale(nested_scale, flat_scale, start_index=None, des
 
 
 def test_1():
-    sequence = generate_sequence_from_scale(WesternEqualTempered440ChromaticContext.chromatic_scale,
-                                            WesternEqualTempered440ChromaticContext.flat_chromatic_scale)
+    sequence = generate_sequence_from_scale(
+        WesternEqualTempered440ChromaticContext.chromatic_scale,
+        WesternEqualTempered440ChromaticContext.flat_chromatic_scale,
+    )
     print('Playing western equal tempered 440 chromatic scale')
     print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
 
 
 def test_2():
-    sequence = generate_sequence_from_scale(WesternJustTemperedA440ChromaticContext.chromatic_scale,
-                                            WesternJustTemperedA440ChromaticContext.flat_chromatic_scale)
+    sequence = generate_sequence_from_scale(
+        WesternJustTemperedA440ChromaticContext.chromatic_scale,
+        WesternJustTemperedA440ChromaticContext.flat_chromatic_scale,
+    )
     print('Playing western just tempered chromatic scale with A at 440')
     print('Chromatic sequence:', sequence[:ceil(len(sequence) / 2)])
     simple_sound_generator.play_pitch_sequences(sequence)
@@ -61,8 +75,10 @@ def test_4():
 
 def test_5():
     applied_scale = AppliedOctavedScale(WesternEqualTempered440ChromaticContext, MajorAbstractScale)
-    chromatic_sequence = generate_sequence_from_scale(applied_scale.chromatic_context.chromatic_scale,
-                                                      applied_scale.chromatic_context.flat_chromatic_scale)
+    chromatic_sequence = generate_sequence_from_scale(
+        applied_scale.chromatic_context.chromatic_scale,
+        applied_scale.chromatic_context.flat_chromatic_scale,
+    )
     scale_sequence = generate_sequence_from_scale(applied_scale.scale, applied_scale.flat_scale)
     print('Playing western equal tempered 440 Major scale with chromatic context scale')
     print('Chromatic sequence:', chromatic_sequence[:ceil(len(chromatic_sequence) / 2)])
@@ -72,8 +88,10 @@ def test_5():
 
 def test_6():
     applied_scale = AppliedOctavedScale(WesternEqualTempered440ChromaticContext, PhrygianAbstractScale)
-    chromatic_sequence = generate_sequence_from_scale(applied_scale.chromatic_context.chromatic_scale,
-                                                      applied_scale.chromatic_context.flat_chromatic_scale)
+    chromatic_sequence = generate_sequence_from_scale(
+        applied_scale.chromatic_context.chromatic_scale,
+        applied_scale.chromatic_context.flat_chromatic_scale,
+    )
     scale_sequence = generate_sequence_from_scale(applied_scale.scale, applied_scale.flat_scale)
     print('Playing western equal tempered 440 Phrygian scale with chromatic context scale')
     print('Chromatic sequence:', chromatic_sequence[:ceil(len(chromatic_sequence) / 2)])
@@ -85,8 +103,10 @@ def test_7():
     chromatic_context = EqualTemperedTrueOctavedChromaticContext()
     abstract_scale = OctavedAbstractScale(chromatic_single_octave_note_count=chromatic_context.single_octave_note_count)
     applied_scale = AppliedOctavedScale(chromatic_context, abstract_scale)
-    chromatic_sequence = generate_sequence_from_scale(applied_scale.chromatic_context.chromatic_scale,
-                                                      applied_scale.chromatic_context.flat_chromatic_scale)
+    chromatic_sequence = generate_sequence_from_scale(
+        applied_scale.chromatic_context.chromatic_scale,
+        applied_scale.chromatic_context.flat_chromatic_scale,
+    )
     scale_sequence = generate_sequence_from_scale(applied_scale.scale, applied_scale.flat_scale)
     print('Playing random scale with random equal tempered true octaved chromatic context scale')
     print('Chromatic single octave note count:', chromatic_context.single_octave_note_count)
@@ -110,3 +130,7 @@ def test_9():
     percussive_context = PercussiveContext()
     random_samples = [choice(percussive_context.samples) for _ in range(10)]
     simple_sound_generator.play_sample_sequence(random_samples)
+
+
+if __name__ == '__main__':
+    test_3()
